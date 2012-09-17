@@ -508,6 +508,9 @@ static rule_map *rule_map_new(kvp keys[], unsigned int num_of_keys, int lineno) 
 				if (!tmp)
 					goto oom;
 
+				if (!new_map->key)
+					memset(tmp, 0, l)
+
 				new_map->key = tmp;
 
 				strcat(new_map->key, k->key);
