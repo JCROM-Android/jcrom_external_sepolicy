@@ -25,7 +25,6 @@ allow platform_app shell_data_file:lnk_file read;
 # Populate /data/app/vmdl*.tmp file created by system server.
 allow platform_app apk_tmp_file:file rw_file_perms;
 # Read/[open] to /proc/net/xt_qtaguid/ctrl and /dev/xt_qtaguid
-allow platform_app qtaguid_proc:file { open };
 allow platform_app qtaguid_device:chr_file r_file_perms;
 
 # Apps signed with the media key.
@@ -41,8 +40,7 @@ allow media_app mtp_device:chr_file rw_file_perms;
 # Write to /cache.
 allow media_app cache_file:dir rw_dir_perms;
 allow media_app cache_file:file create_file_perms;
-# Read/[write] to /proc/net/xt_qtaguid/ctrl and /dev/xt_qtaguid
-allow media_app qtaguid_proc:file rw_file_perms;
+# Read /dev/xt_qtaguid
 allow media_app qtaguid_device:chr_file r_file_perms;
 
 # Apps signed with the shared key.
@@ -66,9 +64,11 @@ net_domain(release_app)
 bluetooth_domain(release_app)
 # Read logs.
 allow release_app log_device:chr_file read;
+# Read /dev/xt_qtaguid
+allow release_app qtaguid_device:chr_file r_file_perms;
 
 # Services with isolatedProcess=true in their manifest.
-type isolated_app, domain;
+type isolated_app, domain, mlstrustedsubject;
 app_domain(isolated_app)
 
 #
@@ -128,6 +128,8 @@ allow untrusted_app sdcard:file create_file_perms;
 bool app_ndk false;
 if (app_ndk or android_cts) {
 allow untrusted_app system_data_file:file { execute open };
+# isolated_app are services of untrusted_apps, for now
+allow isolated_app system_data_file:file { open execute };
 }
 # Read Logs
 bool app_read_logs false;
@@ -138,6 +140,9 @@ allow untrusted_app log_device:chr_file read;
 #
 # Rules for all app domains.
 #
+
+# Allow apps to connect to the keystore
+unix_socket_connect(appdomain, keystore, keystore)
 
 # Receive and use open file descriptors inherited from zygote.
 allow appdomain zygote:fd use;
@@ -173,7 +178,7 @@ allow appdomain anr_data_file:dir search;
 allow appdomain anr_data_file:file { open append };
 
 # Write to /proc/net/xt_qtaguid/ctrl file.
-allow appdomain qtaguid_proc:file write;
+allow appdomain qtaguid_proc:file rw_file_perms;
 
 # Use the Binder.
 binder_use(appdomain)
@@ -183,3 +188,12 @@ binder_transfer(appdomain, binderservicedomain)
 # Perform binder IPC to other apps.
 binder_call(appdomain, appdomain)
 binder_transfer(appdomain, appdomain)
+
+# appdomain interaction with isolated apps
+allow appdomain isolated_app:dir r_dir_perms;
+allow appdomain isolated_app:file r_file_perms;
+
+# I believe these are unnamed sockets and therefore no sock_file is present
+allow appdomain isolated_app:unix_stream_socket { connectto read write };
+allow isolated_app appdomain:unix_stream_socket { connectto read write };
+
