@@ -47,6 +47,19 @@ $(LOCAL_BUILT_MODULE) : $(sepolicy_policy.conf) $(HOST_OUT_EXECUTABLES)/checkpol
 	$(hide) $(HOST_OUT_EXECUTABLES)/checkpolicy -M -c $(POLICYVERS) -o $@ $<
 
 sepolicy_policy.conf :=
+
+###################################
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := checkfc
+LOCAL_MODULE_TAGS := optional
+LOCAL_C_INCLUDES += external/libsepol/include external/libselinux/include
+LOCAL_SRC_FILES := checkfc.c
+LOCAL_STATIC_LIBRARIES := libsepol libselinux
+LOCAL_MODULE_CLASS := EXECUTABLES
+
+include $(BUILD_HOST_EXECUTABLE)
+
 ##################################
 include $(CLEAR_VARS)
 
@@ -58,9 +71,10 @@ LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)
 include $(BUILD_SYSTEM)/base_rules.mk
 
 file_contexts := $(intermediates)/file_contexts
-$(file_contexts): $(LOCAL_PATH)/file_contexts $(LOCAL_POLICY_FC)
+$(file_contexts): $(LOCAL_PATH)/file_contexts $(LOCAL_POLICY_FC) sepolicy $(HOST_OUT_EXECUTABLES)/checkfc
 	@mkdir -p $(dir $@)
-	$(hide) m4 -s $^ > $@
+	$(hide) m4 -s $(LOCAL_PATH)/file_contexts $(LOCAL_POLICY_FC) > $@
+	$(hide) $(HOST_OUT_EXECUTABLES)/checkfc $(TARGET_ROOT_OUT)/sepolicy $@
 
 file_contexts :=
 
