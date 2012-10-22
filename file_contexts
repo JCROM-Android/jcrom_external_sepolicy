@@ -153,3 +153,4 @@
 #############################
 # asec containers
 /mnt/asec(/.*)?         u:object_r:asec_data_file:s0
+/data/app-asec(/.*)?    u:object_r:asec_file:s0
