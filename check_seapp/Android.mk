@@ -12,4 +12,8 @@ LOCAL_SRC_FILES := check_seapp/check_seapp.c
 LOCAL_STATIC_LIBRARIES := libsepol
 LOCAL_MODULE_CLASS := EXECUTABLES
 
+ifeq ($(HOST_OS),darwin)
+LOCAL_CFLAGS += -DDARWIN
+endif
+
 include $(BUILD_HOST_EXECUTABLE)
