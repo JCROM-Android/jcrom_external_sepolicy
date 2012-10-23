@@ -428,8 +428,11 @@ static void rule_map_free(rule_map *rm, rule_map_switch s) {
 		free(m->data);
 	}
 
+/* hdestroy() on BSD will free all the comparison keys */
+#ifndef __APPLE__
 	if(s == rule_map_destroy_key && rm->key)
 		free(rm->key);
+#endif
 
 	free(rm);
 }
@@ -778,7 +781,10 @@ static void rule_add(rule_map *rm) {
 			 */
 			preserved_key = tmp->r->key;
 			rule_map_free(tmp->r, rule_map_preserve_key);
+/* hdestroy() on BSD will free all the comparison keys */
+#ifndef __APPLE__
 			free(rm->key);
+#endif
 			rm->key = preserved_key;
 			tmp->r = rm;
 		}
