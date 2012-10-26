@@ -1,0 +1,8 @@
+Code-Review+2: Ying Wang <wangying@android.com>
+Verified+1: Ying Wang <wangying@android.com>
+Code-Review+1: Stephen Smalley <sds@tycho.nsa.gov>
+Submitted-by: Ying Wang <wangying@android.com>
+Submitted-at: Fri, 26 Oct 2012 08:58:46 -0700
+Reviewed-on: https://android-review.googlesource.com/45567
+Project: platform/external/sepolicy
+Branch: refs/heads/master
