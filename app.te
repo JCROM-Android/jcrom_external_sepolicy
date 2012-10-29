@@ -118,6 +118,8 @@ allow untrusted_app port_type:tcp_socket name_bind;
 unix_socket_connect(untrusted_app, dnsproxyd, netd)
 # Get route information.
 allow untrusted_app self:netlink_route_socket { create bind read nlmsg_read };
+# 3rd party VPN apps use a tun device for sending/receiving vpn data
+allow untrusted_app tun_device:chr_file rw_file_perms;
 }
 # Bluetooth access.
 bool app_bluetooth false;
