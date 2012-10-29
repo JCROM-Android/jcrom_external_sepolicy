@@ -111,8 +111,10 @@ allow untrusted_app node_type:{ tcp_socket udp_socket } node_bind;
 allow untrusted_app port_type:udp_socket name_bind;
 allow untrusted_app port_type:tcp_socket name_bind;
 unix_socket_connect(untrusted_app, dnsproxyd, netd)
-# Get route information.
-allow untrusted_app self:netlink_route_socket { create bind read nlmsg_read };
+# Get route information. Setting route information also necessary for 3rd party vpn apps
+allow untrusted_app self:netlink_route_socket { create bind read nlmsg_read write };
+# 3rd party VPN apps use a tun device for sending/receiving vpn data
+allow untrusted_app tun_device:chr_file { rw_file_perms };
 }
 # Bluetooth access.
 bool app_bluetooth false;
@@ -129,8 +131,8 @@ allow untrusted_app sdcard:file create_file_perms;
 # Native app support.
 bool app_ndk false;
 if (app_ndk or android_cts) {
-allow untrusted_app system_data_file:file { execute open };
-allow isolated_app system_data_file:file { open execute };
+allow untrusted_app { app_data_file system_data_file system_file }:file { execute open execute_no_trans };
+allow isolated_app { app_data_file system_data_file system_file }:file { execute open execute_no_trans };
 }
 # Read Logs
 bool app_read_logs false;
