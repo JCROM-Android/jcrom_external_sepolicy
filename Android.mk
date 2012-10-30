@@ -80,18 +80,6 @@ sepolicy_policy.conf :=
 ###################################
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := checkfc
-LOCAL_MODULE_TAGS := optional
-LOCAL_C_INCLUDES += external/libsepol/include external/libselinux/include
-LOCAL_SRC_FILES := checkfc.c
-LOCAL_STATIC_LIBRARIES := libsepol libselinux
-LOCAL_MODULE_CLASS := EXECUTABLES
-
-include $(BUILD_HOST_EXECUTABLE)
-
-##################################
-include $(CLEAR_VARS)
-
 LOCAL_MODULE := file_contexts
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_TAGS := optional
