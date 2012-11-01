@@ -1,0 +1,9 @@
+Code-Review+2: Kenny Root <kroot@android.com>
+Verified+1: Kenny Root <kroot@android.com>
+Code-Review+1: Ying Wang <wangying@android.com>
+Code-Review+1: Stephen Smalley <sds@tycho.nsa.gov>
+Submitted-by: Kenny Root <kroot@android.com>
+Submitted-at: Thu, 01 Nov 2012 13:39:35 -0700
+Reviewed-on: https://android-review.googlesource.com/45820
+Project: platform/external/sepolicy
+Branch: refs/heads/master
