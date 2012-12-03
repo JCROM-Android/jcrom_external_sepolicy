@@ -56,3 +56,23 @@ BOARD_SEPOLICY_UNION := \
         genfs_contexts \
         file_contexts \
         sepolicy.te
+
+SPECIFIC POLICY FILE INFORMATION
+
+mac_permissions.xml:
+  The mac_permissions.xml file is used for controlling the mmac solutions
+  as well as mapping a public base16 signing key with an arbitrary seinfo
+  string. That seinfo string is the same string that is referenced in
+  seapp_contexts. This file can be replaced through BOARD_SEPOLICY_REPLACE
+  containing mac_permissions.xml, however, appending (UNION) does NOT exist.
+
+  The file is created by processing it through the insert_keys.py script.
+  That script takes arbitrary signature tags (ex @MEDIA) and maps them
+  to a pem file. The pem files contained a base64 encoded version of the
+  public key. This is the same key that PackageManager and setool sees/creates.
+  The script supports having 2 paths per tag DEBUG and RELEASE. The RELEASE
+  path is used on release builds while the DEBUG path is used on debug builds.
+
+  The insertkeys.py script is controlled through a keys.conf file that itself
+  can be appended too or replaced through the use of BOARD_SEPOLICY_REPLACE or
+  BOARD_SEPOLICY_UNION. OEM's should adjust this in their device specific policy.

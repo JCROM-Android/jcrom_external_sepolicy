@@ -22,3 +22,10 @@ LOCAL_SRC_FILES := checkfc.c
 LOCAL_STATIC_LIBRARIES := libsepol libselinux
 
 include $(BUILD_HOST_EXECUTABLE)
+
+##################################
+include $(CLEAR_VARS)
+
+LOCAL_MODULE_TAGS := optional
+LOCAL_PREBUILT_EXECUTABLES := insertkeys.py
+include $(BUILD_HOST_PREBUILT)
