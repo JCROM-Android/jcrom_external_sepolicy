@@ -115,7 +115,6 @@ $(LOCAL_BUILT_MODULE) : $(seapp_contexts.tmp) $(built_sepolicy) $(HOST_OUT_EXECU
 	$(HOST_OUT_EXECUTABLES)/checkseapp -p $(PRIVATE_SEPOLICY) -o $@ $<
 
 seapp_contexts.tmp :=
-built_sepolicy :=
 ##################################
 include $(CLEAR_VARS)
 
@@ -126,12 +125,18 @@ LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)
 
 include $(BUILD_SYSTEM)/base_rules.mk
 
-property_contexts := $(intermediates)/property_contexts
-$(property_contexts): $(call build_policy, property_contexts)
+property_contexts.tmp := $(intermediates)/property_contexts.tmp
+$(property_contexts.tmp): $(call build_policy, property_contexts)
 	@mkdir -p $(dir $@)
 	$(hide) m4 -s $^ > $@
 
-property_contexts :=
+$(LOCAL_BUILT_MODULE): PRIVATE_SEPOLICY := $(built_sepolicy)
+$(LOCAL_BUILT_MODULE) : $(property_contexts.tmp) $(built_sepolicy) $(HOST_OUT_EXECUTABLES)/checkpc
+	@mkdir -p $(dir $@)
+	$(HOST_OUT_EXECUTABLES)/checkpc -f -p $(PRIVATE_SEPOLICY) -o $@ $<
+
+property_contexts.tmp :=
+built_sepolicy :=
 ##################################
 
 ##################################
