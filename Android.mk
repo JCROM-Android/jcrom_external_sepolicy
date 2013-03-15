@@ -17,6 +17,12 @@ $(if $(filter $(MAC_PERMISSION_FILE), $(BOARD_SEPOLICY_UNION)), \
     $(error Cannot specify $(MAC_PERMISSION_FILE) in BOARD_SEPOLICY_UNION) \
 )
 
+ifeq ($(TARGET_BUILD_VARIANT),user)
+	BOARD_SEPOLICY_IGNORE+=external/sepolicy/su.te
+else
+	BOARD_SEPOLICY_IGNORE+=external/sepolicy/su_user.te
+endif
+
 # Quick edge case error detection for BOARD_SEPOLICY_REPLACE.
 # Builds the singular path for each replace file.
 sepolicy_replace_paths :=
