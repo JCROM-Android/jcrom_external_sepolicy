@@ -1,0 +1,3 @@
+# Allow daemons spawned via init entrypoint
+# access on logwrapper
+allow daemon_domain logwrapper_exec:file entrypoint;
