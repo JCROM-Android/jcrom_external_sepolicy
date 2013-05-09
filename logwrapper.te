@@ -1,0 +1,4 @@
+type logwrapper_exec, file_type, exec_type;
+
+allow { domain -appdomain } logwrapper_exec:file entrypoint;
+
