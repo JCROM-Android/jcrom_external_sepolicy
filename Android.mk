@@ -6,7 +6,7 @@ include $(CLEAR_VARS)
 # Must be <= /selinux/policyvers reported by the Android kernel.
 # Must be within the compatibility range reported by checkpolicy -V.
 POLICYVERS ?= 26
-
+POLICY_REVISION ?= 1
 MLS_SENS=1
 MLS_CATS=1024
 
@@ -104,6 +104,7 @@ $(LOCAL_BUILT_MODULE):  $(ALL_FC_FILES) $(built_sepolicy) $(HOST_OUT_EXECUTABLES
 	$(hide) m4 -s $(ALL_FC_FILES) > $@
 	$(hide) $(HOST_OUT_EXECUTABLES)/checkfc $(PRIVATE_SEPOLICY) $@
 
+built_file_contexts := $(LOCAL_BUILT_MODULE)
 file_contexts :=
 
 ##################################
@@ -125,6 +126,7 @@ $(LOCAL_BUILT_MODULE) : $(seapp_contexts.tmp) $(built_sepolicy) $(HOST_OUT_EXECU
 	@mkdir -p $(dir $@)
 	$(HOST_OUT_EXECUTABLES)/checkseapp -p $(PRIVATE_SEPOLICY) -o $@ $<
 
+built_seapp_contexts := $(LOCAL_BUILT_MODULE)
 seapp_contexts.tmp :=
 ##################################
 include $(CLEAR_VARS)
@@ -144,8 +146,8 @@ $(LOCAL_BUILT_MODULE):  $(ALL_PC_FILES) $(built_sepolicy) $(HOST_OUT_EXECUTABLES
 	$(hide) m4 -s $(ALL_PC_FILES) > $@
 	$(hide) $(HOST_OUT_EXECUTABLES)/checkfc -p $(PRIVATE_SEPOLICY) $@
 
+built_property_contexts := $(LOCAL_BUILT_MODULE)
 property_contexts :=
-built_sepolicy :=
 ##################################
 
 ##################################
@@ -181,9 +183,33 @@ $(LOCAL_BUILT_MODULE) : $(mac_perms_keys.tmp) $(HOST_OUT_EXECUTABLES)/insertkeys
 	@mkdir -p $(dir $@)
 	$(hide) $(HOST_OUT_EXECUTABLES)/insertkeys.py -t $(TARGET_BUILD_VARIANT) -d $(dir $(DEFAULT_SYSTEM_DEV_CERTIFICATE)) -c $(TOP) $< -o $@ $(ALL_MAC_PERMS_FILES)
 
+built_mac_perms := $(LOCAL_BUILT_MODULE)
 mac_perms_keys.tmp :=
 ##################################
 
+##################################
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := sepolicy_revision
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+ALL_POLICY_FILES := $(built_sepolicy) $(built_mac_perms) $(built_property_contexts) $(built_file_contexts) $(built_seapp_contexts)
+
+$(LOCAL_BUILT_MODULE) : $(ALL_POLICY_FILES) $(HOST_OUT_EXECUTABLES)/genserev.py
+	@mkdir -p $(dir $@)
+	$(HOST_OUT_EXECUTABLES)/genserev.py -r $(POLICY_REVISION) -o $@ $(ALL_POLICY_FILES)
+
+##################################
+
+built_sepolicy :=
+built_mac_perms :=
+built_property_contexts :=
+built_file_contexts :=
+built_seapp_contexts :=
 build_policy :=
 sepolicy_replace_paths :=
 
