@@ -33,3 +33,14 @@ LOCAL_IS_HOST_MODULE := true
 LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_PREBUILT)
+
+##################################
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := genserev.py
+LOCAL_SRC_FILES := genserev.py
+LOCAL_MODULE_CLASS := EXECUTABLES
+LOCAL_IS_HOST_MODULE := true
+LOCAL_MODULE_TAGS := optional
+
+include $(BUILD_PREBUILT)
