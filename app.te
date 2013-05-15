@@ -6,7 +6,7 @@
 #
 # Apps signed with the platform key.
 #
-type platform_app, domain;
+type platform_app, platformappdomain, domain;
 app_domain(platform_app)
 platform_app_domain(platform_app)
 # Access the network.
@@ -14,34 +14,34 @@ net_domain(platform_app)
 # Access bluetooth.
 bluetooth_domain(platform_app)
 # Write to /cache.
-allow platform_app cache_file:dir rw_dir_perms;
-allow platform_app cache_file:file create_file_perms;
+allow platformappdomain cache_file:dir rw_dir_perms;
+allow platformappdomain cache_file:file create_file_perms;
 # Read from /data/local.
-allow platform_app shell_data_file:dir search;
-allow platform_app shell_data_file:file { open getattr read };
-allow platform_app shell_data_file:lnk_file read;
+allow platformappdomain shell_data_file:dir search;
+allow platformappdomain shell_data_file:file { open getattr read };
+allow platformappdomain shell_data_file:lnk_file read;
 # Populate /data/app/vmdl*.tmp, /data/app-private/vmdl*.tmp files
 # created by system server.
-allow platform_app { apk_tmp_file apk_private_tmp_file }:file rw_file_perms;
-allow platform_app apk_private_data_file:dir search;
+allow platformappdomain { apk_tmp_file apk_private_tmp_file }:file rw_file_perms;
+allow platformappdomain apk_private_data_file:dir search;
 # ASEC
-allow platform_app asec_apk_file:dir create_dir_perms;
-allow platform_app asec_apk_file:file create_file_perms;
+allow platformappdomain asec_apk_file:dir create_dir_perms;
+allow platformappdomain asec_apk_file:file create_file_perms;
 
 # Apps signed with the media key.
-type media_app, domain;
+type media_app, mediaappdomain, domain;
 app_domain(media_app)
 platform_app_domain(media_app)
 # Access the network.
 net_domain(media_app)
 # Access /dev/mtp_usb.
-allow media_app mtp_device:chr_file rw_file_perms;
+allow mediaappdomain mtp_device:chr_file rw_file_perms;
 # Write to /cache.
-allow media_app cache_file:dir rw_dir_perms;
-allow media_app cache_file:file create_file_perms;
+allow mediaappdomain cache_file:dir rw_dir_perms;
+allow mediaappdomain cache_file:file create_file_perms;
 
 # Apps signed with the shared key.
-type shared_app, domain;
+type shared_app, sharedappdomain, domain;
 app_domain(shared_app)
 platform_app_domain(shared_app)
 # Access the network.
@@ -52,7 +52,7 @@ bluetooth_domain(shared_app)
 r_dir_file(shared_app, asec_apk_file)
 
 # Apps signed with the release key (testkey in AOSP).
-type release_app, domain;
+type release_app, releaseappdomain, domain;
 app_domain(release_app)
 platform_app_domain(release_app)
 # Access the network.
@@ -80,23 +80,23 @@ allow platformappdomain sdcard_type:file create_file_perms;
 #
 # Untrusted apps.
 #
-type untrusted_app, domain;
+type untrusted_app, untrustedappdomain, domain;
 app_domain(untrusted_app)
 net_domain(untrusted_app)
 bluetooth_domain(untrusted_app)
-allow untrusted_app tun_device:chr_file rw_file_perms;
+allow untrustedappdomain tun_device:chr_file rw_file_perms;
 
 # Internal SDCard rw access.
 bool app_internal_sdcard_rw true;
 if (app_internal_sdcard_rw) {
-allow untrusted_app sdcard_internal:dir create_dir_perms;
-allow untrusted_app sdcard_internal:file create_file_perms;
+allow untrustedappdomain sdcard_internal:dir create_dir_perms;
+allow untrustedappdomain sdcard_internal:file create_file_perms;
 }
 # External SDCard rw access.
 bool app_external_sdcard_rw true;
 if (app_external_sdcard_rw) {
-allow untrusted_app sdcard_external:dir create_dir_perms;
-allow untrusted_app sdcard_external:file create_file_perms;
+allow untrustedappdomain sdcard_external:dir create_dir_perms;
+allow untrustedappdomain sdcard_external:file create_file_perms;
 }
 
 #

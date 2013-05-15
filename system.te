@@ -7,28 +7,28 @@ type system_app, domain;
 app_domain(system_app)
 
 # Perform binder IPC to any app domain.
-binder_call(system_app, appdomain)
+binder_call(systemappdomain, appdomain)
 
 # Read and write system data files.
 # May want to split into separate types.
-allow system_app system_data_file:dir create_dir_perms;
-allow system_app system_data_file:file create_file_perms;
+allow systemappdomain system_data_file:dir create_dir_perms;
+allow systemappdomain system_data_file:file create_file_perms;
 
 # Read wallpaper file.
-allow system_app wallpaper_file:file r_file_perms;
+allow systemappdomain wallpaper_file:file r_file_perms;
 
 # Write to dalvikcache.
-allow system_app dalvikcache_data_file:file { write setattr };
+allow systemappdomain dalvikcache_data_file:file { write setattr };
 
 # Talk to keystore.
-unix_socket_connect(system_app, keystore, keystore)
+unix_socket_connect(systemappdomain, keystore, keystore)
 
 # Read SELinux enforcing status.
 selinux_getenforce(system)
-selinux_getenforce(system_app)
+selinux_getenforce(systemappdomain)
 
 # Settings app reads sdcard for storage stats
-allow system_app sdcard_type:dir r_dir_perms;
+allow systemappdomain sdcard_type:dir r_dir_perms;
 
 #
 # System Server aka system_server spawned by zygote.
@@ -191,7 +191,7 @@ allow system domain:file r_file_perms;
 allow system gps_device:chr_file rw_file_perms;
 allow system gps_control:file rw_file_perms;
 
-# system Read/Write tcp/udp_socket of untrusted_app
+# system Read/Write tcp/udp_socket of appdomain
 allow system appdomain:{ tcp_socket udp_socket } { setopt read write };
 
 # Allow abstract socket connection

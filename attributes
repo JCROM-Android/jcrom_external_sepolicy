@@ -64,3 +64,18 @@ attribute binderservicedomain;
 
 # Allow domains used for platform (signed by build key) apps.
 attribute platformappdomain;
+
+# Allow domains used for system (signed by build key and shared uid system) apps.
+attribute systemappdomain;
+
+# Allow attribute used for release (signed by release key) apps.
+attribute releaseappdomain;
+
+# Allow attribute used for media (signed by media key) apps.
+attribute mediaappdomain;
+
+# Allow attribute used for shared (signed by shared key) apps.
+attribute sharedappdomain;
+
+# Allow attribute used for untrusted (signed by unknown key) apps.
+attribute untrustedappdomain;
