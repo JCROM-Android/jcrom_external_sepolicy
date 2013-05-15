@@ -109,6 +109,21 @@ tmpfs_domain($1)
 ')
 
 #####################################
+# untrustedapp_domain(domain)
+# Allow a base set of permissions required for all untrusted apps.
+define(`untrustedapp_domain', `
+# The new untrusted appdomain is a part of appdomain
+app_domain($1)
+# Untrusted apps always should have net access
+net_domain($1)
+# Untrusted apps should always have bluetooth access
+bluetooth_domain($1)
+
+# child shell or gdbserver pty access.
+type_transition $1 devpts : chr_file app_devpts;
+')
+
+#####################################
 # platform_app_domain(domain)
 # Allow permissions specific to platform apps.
 define(`platform_app_domain', `

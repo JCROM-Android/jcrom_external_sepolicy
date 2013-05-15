@@ -83,31 +83,32 @@ allow platformappdomain sdcard_type:file create_file_perms;
 # Untrusted apps.
 #
 type untrusted_app, domain;
-app_domain(untrusted_app)
-net_domain(untrusted_app)
-bluetooth_domain(untrusted_app)
-allow untrusted_app tun_device:chr_file rw_file_perms;
+untrustedapp_domain(untrusted_app)
+
+#
+# Rules for all untrusted app domains
+#
+allow untrustedappdomain tun_device:chr_file rw_file_perms;
 
 # Internal SDCard rw access.
 bool app_internal_sdcard_rw true;
 if (app_internal_sdcard_rw) {
-allow untrusted_app sdcard_internal:dir create_dir_perms;
-allow untrusted_app sdcard_internal:file create_file_perms;
+allow untrustedappdomain sdcard_internal:dir create_dir_perms;
+allow untrustedappdomain sdcard_internal:file create_file_perms;
 }
 # External SDCard rw access.
 bool app_external_sdcard_rw true;
 if (app_external_sdcard_rw) {
-allow untrusted_app sdcard_external:dir create_dir_perms;
-allow untrusted_app sdcard_external:file create_file_perms;
+allow untrustedappdomain sdcard_external:dir create_dir_perms;
+allow untrustedappdomain sdcard_external:file create_file_perms;
 }
 
 # child shell or gdbserver pty access.
-type_transition untrusted_app devpts : chr_file app_devpts;
-allow untrusted_app app_devpts:chr_file { open getattr read write ioctl };
+allow untrustedappdomain app_devpts:chr_file { open getattr read write ioctl };
 
 # Asec access for private apps
-allow untrusted_app asec_apk_file:dir { search getattr };
-allow untrusted_app asec_apk_file:file r_file_perms;
+allow untrustedappdomain asec_apk_file:dir { search getattr };
+allow untrustedappdomain asec_apk_file:file r_file_perms;
 
 #
 # Rules for all app domains.

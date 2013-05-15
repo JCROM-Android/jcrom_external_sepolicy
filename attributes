@@ -64,3 +64,6 @@ attribute binderservicedomain;
 
 # Allow domains used for platform (signed by build key) apps.
 attribute platformappdomain;
+
+# Allow domains used for untrusted (signed with unknown key) apps.
+attribute untrustedappdomain;
