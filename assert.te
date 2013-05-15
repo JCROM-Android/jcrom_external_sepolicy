@@ -24,14 +24,14 @@ neverallow { appdomain -bluetooth } hci_attach_dev:chr_file { read write };
 neverallow appdomain tee_device:chr_file { read write };
 
 # Setting SELinux enforcing status or booleans.
-# Conditionally allowed to system_app for SEAndroidManager.
-neverallow { domain -unconfineddomain -system -system_app } kernel:security { setenforce setbool };
+# Conditionally allowed to systemappdomain for SEAndroidManager.
+neverallow { domain -unconfineddomain -system -systemappdomain } kernel:security { setenforce setbool };
 
 # Load security policy, set avc threshold, set checkreqprot.
 neverallow { domain -unconfineddomain } kernel:security { load_policy setsecparam setcheckreqprot };
 
 # Any security operation by app domains other than system apps.
-neverallow { appdomain -system_app } kernel:security *;
+neverallow { appdomain -systemappdomain } kernel:security *;
 
 # Privileged netlink socket interfaces.
 neverallow appdomain self:{ netlink_socket netlink_firewall_socket netlink_tcpdiag_socket netlink_nflog_socket netlink_xfrm_socket netlink_selinux_socket netlink_audit_socket netlink_ip6fw_socket netlink_dnrt_socket netlink_kobject_uevent_socket } *;
@@ -43,7 +43,7 @@ neverallow appdomain socket_device:sock_file write;
 neverallow appdomain adbd_socket:sock_file write;
 neverallow appdomain bluetooth_socket:sock_file write;
 neverallow appdomain installd_socket:sock_file write;
-neverallow { appdomain -bluetooth -radio -shell -system_app } property_socket:sock_file write;
+neverallow { appdomain -bluetooth -radio -shell -systemappdomain } property_socket:sock_file write;
 neverallow { appdomain -radio } rild_socket:sock_file write;
 neverallow appdomain vold_socket:sock_file write;
 neverallow appdomain zygote_socket:sock_file write;
@@ -89,17 +89,17 @@ neverallow appdomain exec_type:file { create write setattr relabelfrom relabelto
 # This is the default type for anything under /data not otherwise
 # specified in file_contexts.  Define a different type for portions
 # that should be writable by apps.
-# Exception for system_app for Settings.
-neverallow { appdomain -system_app } system_data_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
+# Exception for systemappdomain for Settings.
+neverallow { appdomain -systemappdomain } system_data_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
 
 # Write to various other parts of /data.
-neverallow { appdomain -system_app } security_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
+neverallow { appdomain -systemappdomain } security_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
 neverallow appdomain drm_data_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
 neverallow appdomain gps_data_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
-neverallow { appdomain -platform_app } apk_data_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
-neverallow { appdomain -platform_app } apk_tmp_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
-neverallow { appdomain -platform_app } apk_private_data_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
-neverallow { appdomain -platform_app } apk_private_tmp_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
+neverallow { appdomain -platformappdomain } apk_data_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
+neverallow { appdomain -platformappdomain } apk_tmp_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
+neverallow { appdomain -platformappdomain } apk_private_data_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
+neverallow { appdomain -platformappdomain } apk_private_tmp_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
 neverallow { appdomain -shell } shell_data_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
 neverallow { appdomain -bluetooth } bluetooth_data_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
 neverallow appdomain keystore_data_file:dir_file_class_set { create write setattr relabelfrom relabelto append unlink link rename };
@@ -112,15 +112,15 @@ neverallow appdomain efs_file:dir_file_class_set { read write };
 
 # Write to various pseudo file systems.
 neverallow { appdomain -nfc } sysfs:dir_file_class_set write;
-neverallow { appdomain -system_app } selinuxfs:dir_file_class_set write;
+neverallow { appdomain -systemappdomain } selinuxfs:dir_file_class_set write;
 neverallow appdomain proc:dir_file_class_set write;
 
 # Access to syslog(2) or /proc/kmsg.
-neverallow { appdomain -system_app } kernel:system { syslog_read syslog_mod syslog_console };
+neverallow { appdomain -systemappdomain } kernel:system { syslog_read syslog_mod syslog_console };
 
 # Ability to perform any filesystem operation other than statfs(2).
 # i.e. no mount(2), unmount(2), etc.
 neverallow appdomain fs_type:filesystem ~getattr;
 
 # Ability to set system properties.
-neverallow { appdomain -system_app -radio -shell } property_type:property_service set;
+neverallow { appdomain -systemappdomain -radio -shell } property_type:property_service set;
