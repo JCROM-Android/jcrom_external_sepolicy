@@ -1,0 +1,42 @@
+#
+# Permissive Domain Declarations
+#
+permissive bluetooth;
+permissive bluetoothd;
+permissive dbusd;
+permissive debuggerd;
+permissive dhcp;
+permissive drmserver;
+permissive gpsd;
+permissive hci_attach;
+permissive init;
+permissive installd;
+permissive isolated_app;
+permissive kernel;
+permissive keystore;
+permissive media_app;
+permissive mediaserver;
+permissive mtp;
+permissive netd;
+permissive nfc;
+permissive ping;
+permissive platform_app;
+permissive ppp;
+permissive qemud;
+permissive racoon;
+permissive radio;
+permissive release_app;
+permissive rild;
+permissive sdcardd;
+permissive servicemanager;
+permissive shared_app;
+permissive su;
+permissive surfaceflinger;
+permissive system_app;
+permissive tee;
+permissive ueventd;
+permissive untrusted_app;
+permissive vold;
+permissive watchdogd;
+permissive wpa;
+permissive zygote;
