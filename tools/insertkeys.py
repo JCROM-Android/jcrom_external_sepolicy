@@ -87,8 +87,7 @@ class ParseConfig(ConfigParser.ConfigParser):
                 if tag in keyMap:
                     sys.exit("Duplicate tag detected " + tag)
 
-                tag_path = os.path.expandvars(self.get(tag, option))
-                path = os.path.join(key_directory, tag_path)
+                path = os.path.expandvars(self.get(tag, option))
 
                 keyMap[tag] = GenerateKeys(path)
 
