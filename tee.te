@@ -6,5 +6,4 @@ type tee_exec, exec_type, file_type;
 type tee_device, dev_type;
 type tee_data_file, file_type, data_file_type;
 
-permissive tee;
 init_daemon_domain(tee)

@@ -1,6 +1,5 @@
 type runas, domain;
 type runas_exec, file_type;
-permissive runas;
 
 # ndk-gdb invokes adb shell run-as.
 domain_auto_trans(shell, runas_exec, runas)
