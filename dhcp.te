@@ -6,6 +6,5 @@ type dhcp_system_file, file_type, data_file_type;
 
 init_daemon_domain(dhcp)
 net_domain(dhcp)
-unconfined_domain(dhcp)
 
 type_transition dhcp system_data_file:{ dir file } dhcp_data_file;

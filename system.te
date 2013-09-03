@@ -1,11 +1,9 @@
 type system_app, domain;
 permissive system_app;
 app_domain(system_app)
-unconfined_domain(system_app)
 
 type system, domain;
 permissive system;
-unconfined_domain(system);
 relabelto_domain(system);
 
 # Create a socket for receiving info from wpa.

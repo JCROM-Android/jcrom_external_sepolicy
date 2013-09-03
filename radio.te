@@ -5,4 +5,3 @@ app_domain(radio)
 net_domain(radio)
 bluetooth_domain(radio)
 
-unconfined_domain(radio)

@@ -10,4 +10,3 @@ platform_app_domain(release_app)
 net_domain(release_app)
 # Access bluetooth.
 bluetooth_domain(release_app)
-unconfined_domain(release_app)
