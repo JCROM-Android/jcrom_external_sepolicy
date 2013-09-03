@@ -3,5 +3,4 @@
 type ueventd, domain;
 permissive ueventd;
 tmpfs_domain(ueventd)
-unconfined_domain(ueventd)
 allow ueventd rootfs:file entrypoint;

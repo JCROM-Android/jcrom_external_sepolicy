@@ -5,4 +5,3 @@ type mediaserver_exec, exec_type, file_type;
 
 net_domain(mediaserver)
 init_daemon_domain(mediaserver)
-unconfined_domain(mediaserver)

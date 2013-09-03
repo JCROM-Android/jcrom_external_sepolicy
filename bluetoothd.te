@@ -4,4 +4,3 @@ permissive bluetoothd;
 type bluetoothd_exec, exec_type, file_type;
 
 init_daemon_domain(bluetoothd)
-unconfined_domain(bluetoothd)
