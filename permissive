@@ -1,3 +1,6 @@
+#
+# Permissive domains
+#
 permissive adbd;
 permissive bluetooth;
 permissive bluetoothd;
