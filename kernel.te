@@ -7,3 +7,7 @@ relabelto_domain(kernel)
 
 allow kernel {fs_type dev_type file_type}:dir_file_class_set relabelto;
 allow kernel unlabeled:filesystem mount;
+
+# workaround for a mismatch in the capability mapping
+# see https://bugzilla.redhat.com/show_bug.cgi?id=895070
+allow kernel self:capability2 wake_alarm;

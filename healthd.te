@@ -9,4 +9,6 @@ unconfined_domain(healthd)
 allow healthd rootfs:file entrypoint;
 write_klog(healthd)
 
-
+# workaround for a mismatch in the capability mapping
+# see https://bugzilla.redhat.com/show_bug.cgi?id=895070
+allow healthd self:capability2 wake_alarm;
