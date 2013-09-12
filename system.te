@@ -3,7 +3,6 @@
 # Most of the framework services run in this process.
 #
 type system, domain;
-permissive system;
 unconfined_domain(system);
 relabelto_domain(system);
 
