@@ -1,0 +1,9 @@
+Code-Review+2: Nick Kralevich <nnk@google.com>
+Verified+1: Nick Kralevich <nnk@google.com>
+Code-Review+2: Geremy Condra <gcondra@google.com>
+Code-Review+1: Alex Klyubin <klyubin@google.com>
+Submitted-by: Nick Kralevich <nnk@google.com>
+Submitted-at: Thu, 12 Sep 2013 19:41:13 +0000
+Reviewed-on: https://android-review.googlesource.com/65324
+Project: platform/external/sepolicy
+Branch: refs/heads/master
