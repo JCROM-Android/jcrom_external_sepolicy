@@ -10,7 +10,6 @@
 ###
 
 type isolated_app, domain;
-permissive isolated_app;
 app_domain(isolated_app)
 
 # Appdomain interaction with isolated apps
