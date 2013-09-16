@@ -171,6 +171,7 @@
 /data/tombstones(/.*)?	u:object_r:tombstone_data_file:s0
 /data/local/tmp(/.*)?	u:object_r:shell_data_file:s0
 /data/local/tmp/selinux(/.*)?   u:object_r:tombstone_data_file:s0
+/data/media(/.*)?		u:object_r:sdcard_internal:s0
 # Misc data
 /data/misc/bluetooth(/.*)?	u:object_r:bluetooth_data_file:s0
 /data/misc/bluedroid(/.*)?	u:object_r:bluetooth_data_file:s0
