@@ -1,0 +1,10 @@
+Code-Review+2: Nick Kralevich <nnk@google.com>
+Verified+1: Nick Kralevich <nnk@google.com>
+Code-Review+2: Geremy Condra <gcondra@google.com>
+Code-Review+1: William Roberts <wroberts@tresys.com>
+Code-Review+1: Joshua Brindle <brindle@quarksecurity.com>
+Submitted-by: Nick Kralevich <nnk@google.com>
+Submitted-at: Wed, 18 Sep 2013 19:52:36 +0000
+Reviewed-on: https://android-review.googlesource.com/65315
+Project: platform/external/sepolicy
+Branch: refs/heads/master
