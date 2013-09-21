@@ -67,3 +67,15 @@ attribute platformappdomain;
 
 # All domains which are allowed the "relabelto" permission
 attribute relabeltodomain;
+
+# All domains related to system, device, and trusted apps.
+attribute trusteddomain;
+
+# All domains for devices 
+attribute device_domain;
+
+# All domains for system 
+attribute system_domain;
+
+# All domains for trusted apps
+attribute trusted_app_domain;
