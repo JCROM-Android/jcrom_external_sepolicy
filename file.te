@@ -6,6 +6,7 @@ type rootfs, fs_type;
 type proc, fs_type;
 type qtaguid_proc, fs_type, mlstrustedobject;
 type proc_bluetooth_writable, fs_type;
+type sysrq_proc, fs_type;
 type selinuxfs, fs_type;
 type cgroup, fs_type, mlstrustedobject;
 type sysfs, fs_type, mlstrustedobject;
@@ -39,12 +40,18 @@ type apk_tmp_file, file_type, data_file_type, mlstrustedobject;
 # /data/app-private - forward-locked apps
 type apk_private_data_file, file_type, data_file_type;
 type apk_private_tmp_file, file_type, data_file_type, mlstrustedobject;
+# /data/app-lib - app library files
+type app_library_file, file_type, mlstrustedobject;
 # /data/dalvik-cache
 type dalvikcache_data_file, file_type, data_file_type;
 # /data/local - writable by shell
 type shell_data_file, file_type, data_file_type;
 # /data/gps
 type gps_data_file, file_type, data_file_type;
+# /data/media - media data files
+type media_data_file, file_type, data_file_type, mlstrustedobject;
+# /data/media/obb and /mnt/obb - obb apk files
+type obb_apk_file, file_type, data_file_type, mlstrustedobject;
 # /data/misc subdirectories
 type bluetooth_data_file, file_type, data_file_type;
 type keystore_data_file, file_type, data_file_type;

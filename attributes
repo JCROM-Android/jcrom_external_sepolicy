@@ -67,3 +67,4 @@ attribute platformappdomain;
 
 # All domains which are allowed the "relabelto" permission
 attribute relabeltodomain;
+
