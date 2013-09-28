@@ -54,3 +54,7 @@ crypto.                 u:object_r:vold_prop:s0
 ctl.dumpstate           u:object_r:ctl_dumpstate_prop:s0
 ctl.ril-daemon          u:object_r:ctl_rildaemon_prop:s0
 ctl.                    u:object_r:ctl_default_prop:s0
+
+installd.sdcard_manipulate_done u:object_r:sdcard_prop:s0
+service.camera.running  u:object_r:camera_prop:s0
+

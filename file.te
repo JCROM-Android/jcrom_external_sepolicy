@@ -6,6 +6,7 @@ type rootfs, fs_type;
 type proc, fs_type;
 type qtaguid_proc, fs_type, mlstrustedobject;
 type proc_bluetooth_writable, fs_type;
+type sysrq_proc, fs_type;
 type selinuxfs, fs_type;
 type cgroup, fs_type, mlstrustedobject;
 type sysfs, fs_type, mlstrustedobject;
@@ -27,6 +28,8 @@ type unlabeled, file_type;
 type system_file, file_type;
 # Default type for anything under /data.
 type system_data_file, file_type, data_file_type;
+# Default type for anything under /system/lib.
+type system_library_file, file_type, mlstrustedobject;
 # /data/drm - DRM plugin data
 type drm_data_file, file_type, data_file_type;
 # /data/anr - ANR traces
@@ -39,12 +42,20 @@ type apk_tmp_file, file_type, data_file_type, mlstrustedobject;
 # /data/app-private - forward-locked apps
 type apk_private_data_file, file_type, data_file_type;
 type apk_private_tmp_file, file_type, data_file_type, mlstrustedobject;
+# /data/app-lib - app library files
+type app_library_file, file_type, mlstrustedobject;
 # /data/dalvik-cache
 type dalvikcache_data_file, file_type, data_file_type;
 # /data/local - writable by shell
 type shell_data_file, file_type, data_file_type;
 # /data/gps
 type gps_data_file, file_type, data_file_type;
+# /data/media - media data files
+type media_data_file, file_type, data_file_type, mlstrustedobject;
+# /data/media/obb and /mnt/obb - obb apk files
+type obb_apk_file, file_type, data_file_type, mlstrustedobject;
+# data/log - dumplog data files
+type dumplog_data_file, file_type, mlstrustedobject;
 # /data/misc subdirectories
 type bluetooth_data_file, file_type, data_file_type;
 type keystore_data_file, file_type, data_file_type;
@@ -54,6 +65,7 @@ type wifi_data_file, file_type, data_file_type;
 type radio_data_file, file_type, data_file_type;
 type nfc_data_file, file_type, data_file_type;
 type camera_calibration_file, file_type, data_file_type;
+type audio_data_file, file_type, data_file_type;
 # /data/data subdirectories - app sandboxes
 type app_data_file, file_type, data_file_type;
 type platform_app_data_file, file_type, data_file_type, mlstrustedobject;
@@ -64,6 +76,10 @@ type cache_file, file_type, mlstrustedobject;
 type cache_backup_file, file_type, mlstrustedobject;
 # Default type for anything under /efs
 type efs_file, file_type;
+# /efs/FactoryApp - app efs files
+type app_efs_file, file_type, mlstrustedobject;
+# /efs/imei - imei efs files
+type imei_efs_file, file_type;
 # Type for wallpaper file.
 type wallpaper_file, file_type, mlstrustedobject;
 # /mnt/asec
