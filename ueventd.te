@@ -5,3 +5,6 @@ permissive ueventd;
 tmpfs_domain(ueventd)
 unconfined_domain(ueventd)
 allow ueventd rootfs:file entrypoint;
+
+# uventd needs to be able to set permissions on files
+allow ueventd { file_type fs_type }:file setattr;
