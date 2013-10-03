@@ -1,0 +1,6 @@
+#
+# System Server aka system_server spawned by zygote.
+# Most of the framework services run in this process.
+#
+type system, domain, mlstrustedsubject;
+

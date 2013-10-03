@@ -3,4 +3,9 @@ type racoon, domain;
 permissive racoon;
 type racoon_exec, exec_type, file_type;
 
-unconfined_domain(racoon)
+#unconfined_domain(racoon)
+
+allow racoon dnsproxyd_socket:sock_file write;
+allow racoon keystore:unix_stream_socket connectto;
+allow racoon keystore_socket:sock_file write;
+allow racoon netd:unix_stream_socket connectto;

@@ -61,3 +61,6 @@ type hci_attach_dev, dev_type;
 # All devices have a rpmsg device for
 # achieving remoteproc and rpmsg modules
 type rpmsg_device, dev_type;
+
+type persdatablk_device, dev_type;
+type userdatablk_device, dev_type;

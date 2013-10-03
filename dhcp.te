@@ -6,6 +6,24 @@ type dhcp_system_file, file_type, data_file_type;
 
 init_daemon_domain(dhcp)
 net_domain(dhcp)
-unconfined_domain(dhcp)
+#unconfined_domain(dhcp)
 
 type_transition dhcp system_data_file:{ dir file } dhcp_data_file;
+
+# DHCP server should have full control of the udp and tcp sockets
+allow dhcp { self port node }:udp_socket *;
+allow dhcp { self port node }:tcp_socket *;
+
+# Requires CAP net bind
+allow dhcp self:capability net_bind_service;
+
+# Some versions may need to be able to insmod
+allow dhcp kernel:system module_request;
+allow dhcp sysrq_proc:file write;
+
+# Access to some devices
+allow dhcp device:file r_file_perms;
+allow dhcp tty_device:chr_file rw_file_perms;
+
+# CTS
+allow dhcp self:rawip_socket { write create setopt read };

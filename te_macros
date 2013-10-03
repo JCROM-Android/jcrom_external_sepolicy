@@ -307,6 +307,57 @@ allow $1 device:dir { write add_name remove_name };
 ')
 
 #####################################
+# dumplog_read(domain)
+# Allow a domain to read dumplogs.
+define(`dumplog_read', `
+allow $1 dumplog_data_file:dir r_dir_perms;
+allow $1 dumplog_data_file:file r_file_perms;
+')
+
+#####################################
+# dumplog_create(domain)
+# Allow a domain to read, write and create dumplogs.
+define(`dumplog_create', `
+allow $1 dumplog_data_file:dir create_dir_perms;
+allow $1 dumplog_data_file:file create_file_perms;
+allow $1 dumplog_data_file:sock_file create_file_perms;
+allow $1 bugreport_exec:file { execute execute_no_trans };
+allow $1 dumpstate_exec:file { execute execute_no_trans };
+allow $1 dumpsys_exec:file { execute execute_no_trans };
+')
+
+#####################################
+# unix_socket_rw(domain, domain)
+# Allow a local socket read and write from clientdomain via
+# socket to serverdomain.
+define(`unix_socket_rw', `
+allow $1 $2:unix_stream_socket connectto;
+allow $1 $2:unix_stream_socket { read write };
+')
+
+#####################################
+# execute_dump(domain)
+# Allow a domain to execute dumpstate, bugreport, and dumpsys
+define(`execute_dump', `
+allow $1 bugreport_exec:file { execute execute_no_trans };
+allow $1 dumpstate_exec:file { execute execute_no_trans };
+allow $1 dumpsys_exec:file { execute execute_no_trans };
+')
+
+# create_pty(domain)
+# Allow domain to create and use a pty, isolated from any other domain ptys.
+define(`create_pty', `
+# Each domain gets a unique devpts type.
+type $1_devpts, fs_type;
+# Label the pty with the unique type when created.
+type_transition $1 devpts:chr_file $1_devpts;
+# Allow use of the pty after creation.
+allow $1 $1_devpts:chr_file { open getattr read write ioctl };
+# Note: devpts:dir search and ptmx_device:chr_file rw_file_perms
+# allowed to everyone via domain.te.
+')
+
+#####################################
 # Non system_app application set
 #
 define(`non_system_app_set', `{ appdomain -system_app }')

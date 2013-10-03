@@ -39,7 +39,6 @@
 /dev/block(/.*)?	u:object_r:block_device:s0
 /dev/block/loop[0-9]*	u:object_r:loop_device:s0
 /dev/block/ram[0-9]*	u:object_r:ram_device:s0
-/dev/block/mtdblock5	u:object_r:radio_device:s0
 /dev/bus/usb(.*)?       u:object_r:usb_device:s0
 /dev/cam		u:object_r:camera_device:s0
 /dev/console		u:object_r:console_device:s0
@@ -59,8 +58,6 @@
 /dev/mpu		u:object_r:gps_device:s0
 /dev/mpuirq		u:object_r:gps_device:s0
 /dev/mtd(/.*)?		u:object_r:mtd_device:s0
-/dev/mtd/mtd5		u:object_r:radio_device:s0
-/dev/mtd/mtd5ro		u:object_r:radio_device:s0
 /dev/mtp_usb		u:object_r:mtp_device:s0
 /dev/pn544		u:object_r:nfc_device:s0
 /dev/ppp		u:object_r:ppp_device:s0
@@ -75,9 +72,6 @@
 /dev/random		u:object_r:random_device:s0
 /dev/rpmsg-omx[0-9]	u:object_r:rpmsg_device:s0
 /dev/rproc_user	u:object_r:rpmsg_device:s0
-/dev/s3c-jpg		u:object_r:camera_device:s0
-/dev/s3c-mem		u:object_r:camera_device:s0
-/dev/s3c-mfc		u:object_r:graphics_device:s0
 /dev/snd(/.*)?		u:object_r:audio_device:s0
 /dev/socket		u:object_r:socket_device:s0
 /dev/socket/adbd	u:object_r:adbd_socket:s0
@@ -142,6 +136,8 @@
 /system/bin/pppd	u:object_r:ppp_exec:s0
 /system/bin/tf_daemon	u:object_r:tee_exec:s0
 /system/bin/racoon	u:object_r:racoon_exec:s0
+/system/bin/logwrapper	u:object_r:logwrapper_exec:s0
+/system/bin/dbus-daemon	u:object_r:dbusd_exec:s0
 /system/etc/ppp(/.*)?	u:object_r:ppp_system_file:s0
 /system/etc/dhcpcd(/.*)? u:object_r:dhcp_system_file:s0
 /system/xbin/su		u:object_r:su_exec:s0
@@ -150,6 +146,7 @@
 /system/bin/dnsmasq     u:object_r:dnsmasq_exec:s0
 /system/bin/hostapd     u:object_r:hostapd_exec:s0
 /system/bin/clatd	u:object_r:clatd_exec:s0
+/system/lib(/.*)?       u:object_r:system_library_file:s0
 #############################
 # Vendor files
 #
@@ -170,9 +167,13 @@
 /data/app/vmdl.*\.tmp	u:object_r:apk_tmp_file:s0
 /data/app-private(/.*)?		u:object_r:apk_private_data_file:s0
 /data/app-private/vmdl.*\.tmp	u:object_r:apk_private_tmp_file:s0
+/data/app-lib(/.*)?     u:object_r:app_library_file:s0
+/data/bcmnfc(/.*)?      u:object_r:nfc_data_file:s0
+/data/log(/.*)?         u:object_r:dumplog_data_file:s0
+/data/media(/.*)?       u:object_r:media_data_file:s0
+/data/media/obb(/.*)?   u:object_r:obb_apk_file:s0
 /data/tombstones(/.*)?	u:object_r:tombstone_data_file:s0
 /data/local/tmp(/.*)?	u:object_r:shell_data_file:s0
-/data/local/tmp/selinux(/.*)?   u:object_r:tombstone_data_file:s0
 # Misc data
 /data/misc/bluetooth(/.*)?	u:object_r:bluetooth_data_file:s0
 /data/misc/bluedroid(/.*)?	u:object_r:bluetooth_data_file:s0
@@ -182,6 +183,7 @@
 /data/misc/wifi(/.*)?		u:object_r:wifi_data_file:s0
 /data/misc/camera(/.*)?	u:object_r:camera_calibration_file:s0
 /data/misc/dhcp(/.*)?           u:object_r:dhcp_data_file:s0
+/data/misc/audio(/.*)?          u:object_r:audio_data_file:s0
 # App sandboxes
 /data/data/.*		u:object_r:app_data_file:s0
 # Wallpaper file.
@@ -194,6 +196,8 @@
 # efs files
 #
 /efs(/.*)?		u:object_r:efs_file:s0
+/efs/FactoryApp(/.*)?   u:object_r:app_efs_file:s0
+/efs/imei(/.*)?         u:object_r:imei_efs_file:s0
 #############################
 # Cache files
 #

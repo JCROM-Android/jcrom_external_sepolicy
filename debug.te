@@ -1,0 +1,11 @@
+# bugreport
+type bugreport, domain, mlstrustedsubject;
+type bugreport_exec, exec_type, file_type;
+
+# dumpsys
+type dumpsys, domain, mlstrustedsubject;
+type dumpsys_exec, exec_type, file_type;
+
+# dumpstate
+type dumpstate, domain, mlstrustedsubject;
+type dumpstate_exec, exec_type, file_type;

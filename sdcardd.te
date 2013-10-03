@@ -3,4 +3,32 @@ permissive sdcardd;
 type sdcardd_exec, exec_type, file_type;
 
 init_daemon_domain(sdcardd)
-unconfined_domain(sdcardd)
+#unconfined_domain(sdcardd)
+
+# Allow sdcardd access of kernel logs - modify kmsg
+allow sdcardd kernel:system syslog_mod;
+allow sdcardd klog_device:chr_file create_file_perms;
+
+# Allow sdcard to set security property
+allow sdcardd init:unix_stream_socket connectto;
+allow sdcardd property_socket:sock_file write;
+allow sdcardd security_prop:property_service set;
+
+# Defines capability
+allow sdcardd self:capability { sys_admin mknod sys_resource};
+
+# Specify mount permission
+allow sdcardd sdcard_type:dir mounton;
+allow sdcardd sdcard_type:filesystem unmount;
+
+# Access dir and different file types
+allow sdcardd device:dir rw_dir_perms;
+allow sdcardd media_data_file:dir { write getattr read remove_name create open add_name };
+allow sdcardd media_data_file:file { rename read create write getattr unlink open append };
+allow sdcardd obb_apk_file:dir { read getattr open };
+allow sdcardd obb_apk_file:file getattr;
+allow sdcardd rootfs:file r_file_perms;
+allow sdcardd sdcard_external:dir { read open };
+allow sdcardd sdcard_external:file getattr;
+allow sdcardd security_file:file r_file_perms;
+

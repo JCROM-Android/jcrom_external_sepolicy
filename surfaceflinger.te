@@ -4,7 +4,54 @@ permissive surfaceflinger;
 type surfaceflinger_exec, exec_type, file_type;
 
 init_daemon_domain(surfaceflinger)
-unconfined_domain(surfaceflinger)
+#unconfined_domain(surfaceflinger)
 
 # Talk to init over the property socket.
 unix_socket_connect(surfaceflinger, property, init)
+
+# Access to binder
+binder_call(surfaceflinger, adbd)
+binder_call(surfaceflinger, appdomain)
+binder_call(surfaceflinger, mediaserver)
+binder_call(surfaceflinger, nfc)
+binder_call(surfaceflinger, radio)
+binder_call(surfaceflinger, servicemanager)
+binder_call(surfaceflinger, shell)
+binder_call(surfaceflinger, system)
+binder_call(surfaceflinger, zygote)
+
+# Access to dumplog and init
+dumplog_create(surfaceflinger)
+unix_socket_rw(surfaceflinger, init)
+
+# Use open file descriptor
+allow surfaceflinger appdomain:fd use;
+
+# Access to unix domain socket
+allow surfaceflinger self:unix_stream_socket write;
+
+# Access dir and different file types
+allow surfaceflinger app_data_file:file w_file_perms;
+allow surfaceflinger bugreport:dir r_dir_perms;
+allow surfaceflinger bugreport:file r_file_perms;
+allow surfaceflinger camera_device:chr_file rw_file_perms;
+allow surfaceflinger devpts:chr_file { read write };
+allow surfaceflinger dumpstate:dir r_dir_perms;
+allow surfaceflinger dumpstate:file r_file_perms;
+allow surfaceflinger dumpsys:dir r_dir_perms;
+allow surfaceflinger dumpsys:file r_file_perms;
+allow surfaceflinger init:dir r_dir_perms;
+allow surfaceflinger init:file r_file_perms;
+allow surfaceflinger media_data_file:file w_file_perms;
+allow surfaceflinger mediaserver:dir r_dir_perms;
+allow surfaceflinger mediaserver:file r_file_perms;
+allow surfaceflinger platform_app_data_file:file w_file_perms;
+allow surfaceflinger radio:dir r_dir_perms;
+allow surfaceflinger radio:file r_file_perms;
+allow surfaceflinger release_app:dir r_dir_perms;
+allow surfaceflinger release_app:file r_file_perms;
+allow surfaceflinger sdcard_type:file w_file_perms;
+allow surfaceflinger shell_exec:file rx_file_perms;
+allow surfaceflinger system_app:file r_file_perms;
+allow surfaceflinger system_file:file x_file_perms;
+allow surfaceflinger tty_device:chr_file rw_file_perms;
