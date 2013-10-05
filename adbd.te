@@ -2,7 +2,66 @@
 # it lives in the rootfs and has no unique file type.
 type adbd, domain;
 permissive adbd;
-unconfined_domain(adbd)
+#unconfined_domain(adbd)
 domain_auto_trans(adbd, shell_exec, shell)
 # this is an entrypoint
 allow adbd rootfs:file entrypoint;
+
+# Read /data/misc/adb/adb_keys.
+allow adbd adb_keys_file:dir search;
+allow adbd adb_keys_file:file r_file_perms;
+
+# Allow access in case /data/misc/adb still has the old type.
+allow adbd system_data_file:dir search;
+allow adbd system_data_file:file r_file_perms;
+
+# grant adbd the permission to create dumplog
+dumplog_create(adbd)
+
+# accesses to a variety of files/directories
+allow adbd app_data_file:file r_file_perms;  
+allow adbd app_library_file:file r_file_perms;
+allow adbd adb_keys_file:dir r_dir_perms;
+allow adbd platform_app_data_file:dir r_dir_perms;
+allow adbd platform_app_data_file:file r_file_perms;
+allow adbd radio_data_file:dir r_dir_perms;
+allow adbd radio_data_file:file r_file_perms;
+allow adbd cache_file:file create_file_perms;
+allow adbd media_data_file:dir create_dir_perms;
+allow adbd media_data_file:file create_file_perms;
+allow adbd sdcard_type:dir create_dir_perms;
+allow adbd sdcard_type:file create_file_perms;
+allow adbd shell_data_file:dir create_dir_perms;
+allow adbd sysrq_proc:file w_file_perms;
+allow adbd system_data_file:file create_file_perms;
+allow adbd system_data_file:dir create_dir_perms;
+allow adbd cache_file:dir w_dir_perms;
+allow adbd cache_file:file w_file_perms;
+allow adbd system_file:dir w_dir_perms;
+allow adbd system_file:file create_file_perms;
+
+# to have fowner capability on itself
+allow adbd self:capability fowner;
+
+# allow to setschedule to kernel process
+allow adbd kernel:process setsched;
+
+# connect to tcp socket
+allow adbd port:tcp_socket name_connect;
+
+# ddms needs syslog permission through adbd
+allow adbd self:capability2 syslog;
+
+# Dont audit adb pull on audit logs
+dontaudit adbd audit_log:file *;
+dontaudit adbd audit_log:dir *;
+
+# property service
+allow adbd shell_prop:property_service set;
+
+# for secure_adb
+allow adbd init:unix_stream_socket { accept listen read write };
+
+# for CTS
+allow adbd self:capability setpcap;
+allow adbd powervr_device:chr_file rw_file_perms;

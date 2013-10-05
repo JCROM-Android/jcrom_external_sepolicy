@@ -5,4 +5,30 @@ app_domain(radio)
 net_domain(radio)
 bluetooth_domain(radio)
 
-unconfined_domain(radio)
+#unconfined_domain(radio)
+
+# The following rules define radio MLS trusted subject and allow radio to create dumplog.
+typeattribute radio mlstrustedsubject;
+dumplog_create(radio)
+
+# Allows servicemanager to obtain its service by making Binder IPC calls to it.
+binder_call(radio, servicemanager)
+
+# The following block of rules gives radio the directory and file permissions to certain file types.
+allow radio app_data_file:dir r_dir_perms;
+allow radio app_data_file:file rw_file_perms;
+allow radio app_library_file:dir r_dir_perms;
+allow radio bluetooth_efs_file:dir create_dir_perms;
+allow radio bluetooth_efs_file:file { create_file_perms x_file_perms };
+allow radio drm_data_file:dir r_dir_perms;
+allow radio imei_efs_file:dir create_dir_perms;
+allow radio imei_efs_file:file create_file_perms;
+allow radio shell_data_file:dir r_dir_perms;
+allow radio shell_data_file:file r_file_perms;
+allow radio shell_exec:file rx_file_perms;
+allow radio system_data_file:dir r_dir_perms;
+allow radio system_data_file:file r_file_perms;
+allow radio system_file:file execute_no_trans;
+allow radio system_file:lnk_file getattr;
+allow radio wifi_efs_file:dir create_dir_perms;
+allow radio wifi_efs_file:file create_file_perms;

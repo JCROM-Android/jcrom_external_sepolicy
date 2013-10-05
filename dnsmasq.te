@@ -4,4 +4,33 @@ type dnsmasq_exec, exec_type, file_type;
 
 init_daemon_domain(dnsmasq)
 net_domain(dnsmasq)
-unconfined_domain(dnsmasq)
+#unconfined_domain(dnsmasq)
+
+# to request kernel module
+allow dnsmasq kernel:system module_request;
+
+# access to the file descriptor inherited from netd
+allow dnsmasq netd:fd use;
+
+# access to fifo file and /dev/socket/netd
+allow dnsmasq netd:fifo_file rw_file_perms;
+allow dnsmasq netd_socket:sock_file w_file_perms;
+
+# permission to access netd through different sockets
+allow dnsmasq netd:{ netlink_kobject_uevent_socket netlink_nflog_socket netlink_route_socket udp_socket } { read write };
+allow dnsmasq netd:unix_stream_socket { read write connectto };
+
+# to bind to node and port through udp socket
+allow dnsmasq node:udp_socket node_bind;
+allow dnsmasq port:udp_socket name_bind;
+
+# capabilities in need
+allow dnsmasq self:capability { dac_override setuid chown fsetid setgid fowner net_bind_service sys_module net_admin net_raw };
+
+# the permissions to create socket of type netline_route_socket, udp_socket and rawip_socket
+allow dnsmasq self:{ netlink_route_socket rawip_socket udp_socket } create_socket_perms;
+allow dnsmasq self:netlink_route_socket nlmsg_read;
+
+# execution permission to some executable files
+allow dnsmasq shell_exec:file rx_file_perms;
+allow dnsmasq system_file:file x_file_perms;

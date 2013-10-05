@@ -3,5 +3,17 @@
 type ueventd, domain;
 permissive ueventd;
 tmpfs_domain(ueventd)
-unconfined_domain(ueventd)
+#unconfined_domain(ueventd)
 allow ueventd rootfs:file entrypoint;
+
+# The following rules give ueventd to set security properity.
+allow ueventd init:unix_stream_socket connectto;
+allow ueventd property_socket:sock_file write;
+allow ueventd security_prop:property_service set;
+
+# The following rules allow ueventd to access certain file types
+allow ueventd sdcard_external:dir create_dir_perms;
+allow ueventd sdcard_external:file create_file_perms;
+
+# This rule allows ueventd to label certain sysfs objects.
+allow ueventd sysfs:file relabelfrom;

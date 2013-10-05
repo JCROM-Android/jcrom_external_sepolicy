@@ -1,0 +1,18 @@
+# logwrapper
+
+type logwrapper, domain;
+type logwrapper_exec, exec_type, file_type;
+
+init_daemon_domain(logwrapper)
+
+allow logwrapper dbus_socket:sock_file write;
+allow logwrapper dbusd:unix_stream_socket connectto;
+
+allow logwrapper self:capability { setuid net_bind_service setgid net_raw net_admin };
+allow logwrapper self:{ socket udp_socket packet_socket netlink_socket netlink_route_socket } *;
+
+allow logwrapper bluetoothd_data_file:dir create_dir_perms;
+allow logwrapper bluetoothd_data_file:file create_file_perms;
+allow logwrapper bluetoothd_exec:file rx_file_perms;
+allow logwrapper cgroup:dir create_dir_perms;
+allow logwrapper devpts:chr_file rw_file_perms;

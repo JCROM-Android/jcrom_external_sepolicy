@@ -2,4 +2,34 @@
 type bluetooth, domain;
 permissive bluetooth;
 app_domain(bluetooth)
-unconfined_domain(bluetooth)
+#unconfined_domain(bluetooth)
+
+# to create dumplog
+dumplog_create(bluetooth)
+
+# to interact with init on property socket
+unix_socket_rw(bluetooth, init)
+unix_socket_connect(bluetooth, property, init)
+
+# to interact with rild daemon using unix stream socket
+allow bluetooth rild:unix_stream_socket connectto;
+
+# to set the property of default_prop and system_prop
+allow bluetooth default_prop:property_service set;
+allow bluetooth system_prop:property_service set;
+
+# assign bluetooth domain the net_admin capability and permission to create tun and udp sockets
+allow bluetooth self:capability net_admin;
+allow bluetooth self:{ tun_socket udp_socket } create_socket_perms;
+
+# to access a variety of files/directories
+allow bluetooth appdomain:fifo_file r_file_perms;
+allow bluetooth devpts:chr_file { read write };
+allow bluetooth input_device:chr_file r_file_perms;
+allow bluetooth platform_app_data_file:file r_file_perms;
+allow bluetooth sdcard_type:dir create_dir_perms;
+allow bluetooth sdcard_type:file create_file_perms;
+allow bluetooth sysfs:file r_file_perms;
+allow bluetooth system_app:fifo_file w_file_perms;
+allow bluetooth system_data_file:dir r_dir_perms;
+allow bluetooth system_data_file:file r_file_perms;

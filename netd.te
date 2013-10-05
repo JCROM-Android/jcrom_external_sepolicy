@@ -81,3 +81,42 @@ neverallow netd system_file:dir_file_class_set write;
 
 # Write to files in /data/data or system files on /data
 neverallow netd { app_data_file system_data_file }:dir_file_class_set write;
+
+# Access to dumplog
+dumplog_read(netd)
+
+# Access to kmsg
+access_kmsg(netd)
+
+# Capability
+allow netd self:capability { setuid fsetid setgid net_bind_service };
+
+# Access to socket
+allow netd hostapd:unix_dgram_socket sendto;
+allow netd node:tcp_socket node_bind;
+allow netd port:tcp_socket { name_bind name_connect };
+allow netd self:{ packet_socket tcp_socket netlink_socket } *;
+allow netd self:tun_socket create;
+
+# Access to dir / files
+allow netd app_data_file:file read;
+allow netd cgroup:dir create_dir_perms;
+allow netd dhcp_data_file:dir rw_dir_perms;
+allow netd dhcp_data_file:file create_file_perms;
+allow netd dnsproxyd_socket:sock_file w_file_perms;
+allow netd kmsg_device:chr_file w_file_perms;
+allow netd media_data_file:dir r_dir_perms;
+allow netd media_data_file:file r_file_perms;
+allow netd netd_socket:sock_file w_file_perms;
+allow netd system_library_file:dir r_dir_perms;
+allow netd tun_device:chr_file rw_file_perms;
+allow netd wifi_data_file:dir create_dir_perms;
+allow netd wifi_data_file:sock_file create_file_perms;
+allow netd tty_device:chr_file rw_file_perms;
+allow netd sdcard_type:dir r_dir_perms;
+allow netd sdcard_type:file r_file_perms;
+allow netd system_data_file:file r_file_perms;
+
+# Allow netd send sigkill to dnsmasq
+allow netd dnsmasq:process sigkill;
+

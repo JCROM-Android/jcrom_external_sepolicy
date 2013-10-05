@@ -2,4 +2,23 @@
 type nfc, domain;
 permissive nfc;
 app_domain(nfc)
-unconfined_domain(nfc)
+#unconfined_domain(nfc)
+
+# to allow nfc processes to create dumplog, and bind to IPC of zygote
+dumplog_create(nfc)
+binder_call(nfc, zygote)
+
+# to allow nfc read/write scoket of init
+unix_socket_rw(nfc, init)
+
+# to access cache files
+allow nfc cache_file:file w_file_perms;
+
+# to access files/dirs on sdcard
+allow nfc sdcard_type:dir create_dir_perms;
+allow nfc sdcard_type:file link_file_perms;
+allow nfc sdcard_type:file w_file_perms;
+
+# to access files/dirs with type of system_data_file
+allow nfc system_data_file:dir r_dir_perms;
+allow nfc system_data_file:file r_file_perms;

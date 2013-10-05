@@ -4,4 +4,13 @@ permissive servicemanager;
 type servicemanager_exec, exec_type, file_type;
 
 init_daemon_domain(servicemanager)
-unconfined_domain(servicemanager)
+#unconfined_domain(servicemanager)
+
+# Allow servicemanager connection to init using local socket connection
+unix_socket_connect(servicemanager, property, init)
+
+# Access file
+allow servicemanager device:file r_file_perms;
+
+# Access property service
+allow servicemanager system_prop:property_service set;

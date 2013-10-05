@@ -2,6 +2,39 @@
 type drmserver, domain;
 permissive drmserver;
 type drmserver_exec, exec_type, file_type;
+type drmserver_socket, file_type;
 
 init_daemon_domain(drmserver)
-unconfined_domain(drmserver)
+#unconfined_domain(drmserver)
+
+dumplog_create(drmserver)
+
+allow drmserver apk_data_file:dir create_dir_perms;
+allow drmserver apk_data_file:file create_file_perms;
+allow drmserver apk_data_file:sock_file create_file_perms;
+
+# Access to socket
+allow drmserver init:unix_stream_socket { connectto read write };
+allow drmserver init_shell:unix_stream_socket connectto;
+allow drmserver port:tcp_socket name_connect;
+
+# Access to dir and different file types
+allow drmserver app_data_file:dir create_dir_perms;
+allow drmserver app_data_file:file create_file_perms;
+allow drmserver dnsproxyd_socket:sock_file w_file_perms;
+allow drmserver efs_file:dir create_dir_perms;
+allow drmserver efs_file:file create_file_perms;
+allow drmserver media_data_file:dir create_dir_perms;
+allow drmserver media_data_file:file create_file_perms;
+allow drmserver platform_app_data_file:file rw_file_perms;
+allow drmserver radio_data_file:dir create_dir_perms;
+allow drmserver radio_data_file:file create_file_perms;
+allow drmserver sdcard_type:dir create_dir_perms;
+allow drmserver sdcard_type:file create_file_perms;
+allow drmserver shell_exec:file x_file_perms;
+allow drmserver system_data_file:dir create_dir_perms;
+allow drmserver system_data_file:file create_file_perms;
+allow drmserver system_data_file:sock_file create_file_perms;
+allow drmserver system_file:file create_file_perms;
+allow drmserver system_file:file x_file_perms;
+allow drmserver tty_device:chr_file rw_file_perms;

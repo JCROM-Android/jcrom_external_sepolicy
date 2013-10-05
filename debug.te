@@ -1,0 +1,113 @@
+# bugreport
+type bugreport, domain, mlstrustedsubject;
+type bugreport_exec, exec_type, file_type;
+
+# dumpsys
+type dumpsys, domain, mlstrustedsubject;
+type dumpsys_exec, exec_type, file_type;
+
+# dumpstate
+type dumpstate, domain, mlstrustedsubject;
+type dumpstate_exec, exec_type, file_type;
+
+# Allow bugreport to signal, use property service, access socket, 
+# use open file descriptor and have dac_override capability
+allow bugreport adbd:process sigchld;
+allow bugreport ctl_dumpstate_prop:property_service set;
+allow bugreport init:unix_stream_socket { read write connectto };
+allow bugreport self:capability dac_override;
+allow bugreport shell:fd use;
+
+# Allow bugreport access to certain dir and file types
+allow bugreport device:sock_file write;
+allow bugreport devpts:chr_file rw_file_perms;
+allow bugreport media_data_file:file create_file_perms;
+allow bugreport sdcard_type:file create_file_perms;
+allow bugreport property_socket:sock_file write;
+allow bugreport tty_device:chr_file rw_file_perms;
+
+# Allow dumpsys performs binder IPC to various server domains
+binder_call(dumpsys, drmserver)
+binder_call(dumpsys, mediaserver)
+binder_call(dumpsys, nfc)
+binder_call(dumpsys, radio)
+binder_call(dumpsys, servicemanager)
+binder_call(dumpsys, surfaceflinger)
+binder_call(dumpsys, system)
+binder_call(dumpsys, system_app)
+
+# Allow dumpsys to signal, access socket, and use open file descriptor
+allow dumpsys adbd:process sigchld;
+allow dumpsys init:unix_stream_socket { read write };
+allow dumpsys shell:fd use;
+
+# Allow dumpsys access to dir and different file types
+allow dumpsys adbd:fifo_file rw_file_perms;
+allow dumpsys devpts:chr_file rw_file_perms;
+allow dumpsys media_data_file:file create_file_perms;
+allow dumpsys sdcard_type:file create_file_perms;
+allow dumpsys tty_device:chr_file rw_file_perms;
+
+# Allow dumpstate performs binder IPC to various server domains
+binder_call(dumpstate, drmserver)
+binder_call(dumpstate, keystore)
+binder_call(dumpstate, mediaserver)
+binder_call(dumpstate, nfc)
+binder_call(dumpstate, radio)
+binder_call(dumpstate, servicemanager)
+binder_call(dumpstate, surfaceflinger)
+binder_call(dumpstate, system)
+binder_call(dumpstate, system_app)
+
+# Allow dumpstate read access to dir, file and lnk_file of any domain
+r_dir_file(dumpstate, domain)
+
+# Give dumpstate full capabilities
+allow dumpstate self:capability *;
+allow dumpstate self:capability2 *;
+
+# Allow dumpstate to signal, access property service and syslog, and use open file descriptor
+allow dumpstate adbd:process sigchld;
+allow dumpstate domain:process signal;
+allow dumpstate ctl_dumpstate_prop:property_service set;
+allow dumpstate kernel:system syslog_read;
+allow dumpstate shell:fd use;
+
+# Allow access to differnt sockets and sock files
+allow dumpstate init:unix_stream_socket { read write connectto };
+allow dumpstate node:rawip_socket node_bind;
+allow dumpstate property_socket:sock_file write;
+allow dumpstate self:netlink_route_socket { write getattr setopt read bind create nlmsg_read };
+allow dumpstate self:rawip_socket create_socket_perms;
+allow dumpstate self:udp_socket { ioctl getattr create connect };
+allow dumpstate shell:unix_stream_socket { read write };
+allow dumpstate vold:unix_stream_socket connectto;
+allow dumpstate vold_socket:sock_file w_file_perms;
+allow dumpstate wpa:unix_dgram_socket sendto;
+allow dumpstate wpa_socket:sock_file create_file_perms;
+
+# Allow dumpstate access to dir and different file types
+allow dumpstate anr_data_file:dir create_dir_perms;
+allow dumpstate anr_data_file:file create_file_perms;
+allow dumpstate bugreport_exec:file { read execute open execute_no_trans };
+allow dumpstate device:sock_file write;
+allow dumpstate devpts:chr_file rw_file_perms;
+allow dumpstate dumplog_data_file:dir create_dir_perms;
+allow dumpstate dumplog_data_file:file create_file_perms;
+allow dumpstate dumpsys_exec:file rx_file_perms;
+allow dumpstate media_data_file:file create_file_perms;
+allow dumpstate qtaguid_proc:file r_file_perms;
+allow dumpstate sdcard_type:file create_file_perms;
+allow dumpstate sysfs:file w_file_perms;
+allow dumpstate system_data_file:dir create_dir_perms;
+allow dumpstate system_data_file:file create_file_perms;
+allow dumpstate system_file:file x_file_perms;
+allow dumpstate tty_device:chr_file { read write };
+allow dumpstate wifi_data_file:dir rw_dir_perms;
+allow dumpstate wifi_data_file:sock_file create_file_perms;
+
+# Allow system, debuggerd and appdomain to execute
+# dumpstate, bugreport, and dumpsys
+execute_dump(system)
+execute_dump(debuggerd)
+execute_dump(appdomain)

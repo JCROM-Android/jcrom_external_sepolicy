@@ -5,4 +5,7 @@ type mtp_exec, exec_type, file_type;
 
 init_daemon_domain(mtp)
 net_domain(mtp)
-unconfined_domain(mtp)
+#unconfined_domain(mtp)
+
+# to use ioctl to control self socket
+allow mtp self:socket ioctl;

@@ -4,6 +4,51 @@ permissive debuggerd;
 type debuggerd_exec, exec_type, file_type;
 
 init_daemon_domain(debuggerd)
-unconfined_domain(debuggerd)
+#unconfined_domain(debuggerd)
 relabelto_domain(debuggerd)
 allow debuggerd tombstone_data_file:dir relabelto;
+
+# Connect to system_server via /data/system/ndebugsocket.
+unix_socket_connect(debuggerd, system_ndebug, system_server)
+
+# Access to dumplog and kmsg
+dumplog_create(debuggerd)
+access_kmsg(debuggerd)
+
+# Connect to vold using unix domain socket
+unix_socket_connect(debuggerd, vold, vold)
+
+# Socket access to logwrapper and wpa
+allow debuggerd logwrapper:unix_dgram_socket sendto;
+allow debuggerd wpa:unix_dgram_socket sendto;
+
+# Define the capabilities and socket access permissions
+allow debuggerd self:capability { setuid net_raw sys_resource setgid net_admin sys_module };
+allow debuggerd self:netlink_route_socket { write getattr setopt read bind create nlmsg_read };
+allow debuggerd self:rawip_socket *;
+allow debuggerd self:udp_socket *;
+
+# Access to dir and different file types
+allow debuggerd app_data_file:dir create_dir_perms;
+allow debuggerd app_data_file:file create_file_perms;
+allow debuggerd cgroup:dir create_dir_perms;
+allow debuggerd firmware:dir r_dir_perms;
+allow debuggerd firmware:file r_file_perms;
+allow debuggerd init:unix_stream_socket connectto;
+allow debuggerd kernel:system module_request;
+allow debuggerd node:rawip_socket node_bind;
+allow debuggerd ping_exec:file rx_file_perms;
+allow debuggerd proc:file write;
+allow debuggerd qtaguid_proc:file r_file_perms;
+allow debuggerd sdcard_external:dir r_dir_perms;
+allow debuggerd selinuxfs:dir read;
+allow debuggerd shell_exec:file rx_file_perms;
+allow debuggerd sysfs:file w_file_perms;
+allow debuggerd system:unix_stream_socket connectto;
+allow debuggerd system_data_file:file create_file_perms;
+allow debuggerd system_data_file:sock_file w_file_perms;
+allow debuggerd system_file:file x_file_perms;
+allow debuggerd tty_device:chr_file rw_file_perms;
+allow debuggerd wifi_data_file:dir rw_dir_perms;
+allow debuggerd wifi_data_file:sock_file create_file_perms;
+allow debuggerd wpa_socket:sock_file w_file_perms;

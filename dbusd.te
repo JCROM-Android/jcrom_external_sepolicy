@@ -1,0 +1,10 @@
+# dbus daemon
+# Backwards compatibility - dbusd is no longer in AOSP since Jelly Bean/4.2
+type dbusd, domain;
+type dbusd_exec, exec_type, file_type;
+
+init_daemon_domain(dbusd)
+# Reads /proc/pid/cmdline of clients
+r_dir_file(dbusd, system)
+r_dir_file(dbusd, bluetoothd)
+

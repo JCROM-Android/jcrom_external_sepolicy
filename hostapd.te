@@ -4,4 +4,14 @@ type hostapd_exec, exec_type, file_type;
 
 init_daemon_domain(hostapd)
 net_domain(hostapd)
-unconfined_domain(hostapd)
+#unconfined_domain(hostapd)
+
+# hostapd will send SIM/AKA authentication queries over a UNIX domain socket
+allow hostapd netd:unix_dgram_socket sendto;
+
+# The following rules grant hostapd read permissions to wifi efs files/dir (/efs/wifi), efs files/dir (/efs) and control group dir
+allow hostapd wifi_efs_file:dir r_dir_perms;
+allow hostapd wifi_efs_file:file r_file_perms;
+allow hostapd cgroup:dir r_dir_perms;
+allow hostapd efs_file:dir r_dir_perms;
+allow hostapd efs_file:file r_file_perms;

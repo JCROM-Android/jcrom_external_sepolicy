@@ -4,5 +4,29 @@ permissive wpa;
 type wpa_exec, exec_type, file_type;
 
 init_daemon_domain(wpa)
-unconfined_domain(wpa)
+#unconfined_domain(wpa)
 type_transition wpa wifi_data_file:sock_file wpa_socket;
+
+# Access to binder
+binder_call(wpa, servicemanager)
+binder_call(wpa, keystore)
+
+# Access to socket
+allow wpa debuggerd:unix_dgram_socket sendto;
+allow wpa init:unix_stream_socket connectto;
+allow wpa init_shell:unix_dgram_socket sendto;
+allow wpa keystore:unix_stream_socket connectto;
+allow wpa rild:unix_stream_socket connectto;
+allow wpa shell:unix_dgram_socket sendto;
+allow wpa system_app:unix_dgram_socket sendto;
+allow wpa su:unix_dgram_socket sendto;
+
+# Access to dir and different file types
+allow wpa device:file r_file_perms;
+allow wpa keystore_socket:sock_file w_file_perms;
+allow wpa property_socket:sock_file w_file_perms;
+allow wpa sdcard_type:dir r_dir_perms;
+allow wpa sdcard_type:file r_file_perms;
+allow wpa system_data_file:dir r_dir_perms;
+allow wpa system_data_file:file w_file_perms;
+allow wpa wifi_data_file:sock_file w_file_perms;

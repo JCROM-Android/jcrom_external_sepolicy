@@ -5,4 +5,39 @@ type rild_exec, exec_type, file_type;
 
 init_daemon_domain(rild)
 net_domain(rild)
-unconfined_domain(rild)
+#unconfined_domain(rild)
+
+dumplog_create(rild)
+
+binder_call(rild, system)
+binder_use(rild)
+allow rild self:{ netlink_socket packet_socket netlink_route_socket } create_socket_perms;
+
+# Access to dir and different file types
+allow rild anr_data_file:dir rw_dir_perms;
+allow rild anr_data_file:file rw_file_perms;
+allow rild app_data_file:dir create_dir_perms;
+allow rild app_data_file:file create_file_perms;
+allow rild app_efs_file:dir create_dir_perms;
+allow rild app_efs_file:file create_file_perms;
+allow rild bluetooth:dir create_dir_perms;
+allow rild bluetooth:file create_file_perms;
+allow rild dumpstate_exec:file x_file_perms;
+allow rild imei_efs_file:dir create_dir_perms;
+allow rild imei_efs_file:file create_file_perms;
+allow rild init:dir r_dir_perms;
+allow rild init:file r_file_perms;
+allow rild mediaserver:dir create_dir_perms;
+allow rild mediaserver:file create_file_perms;
+allow rild platform_app:dir create_dir_perms;
+allow rild platform_app:file create_file_perms;
+allow rild proc:file w_file_perms;
+allow rild radio_data_file:dir create_dir_perms;
+allow rild radio_data_file:file create_file_perms;
+allow rild self:capability { chown dac_override };
+allow rild sysfs:file create_file_perms;
+allow rild system_prop:property_service set;
+allow rild tty_device:chr_file rw_file_perms;
+allow rild wpa:dir r_dir_perms;
+allow rild wpa:file r_file_perms;
+allow rild zygote_exec:file rx_file_perms;
