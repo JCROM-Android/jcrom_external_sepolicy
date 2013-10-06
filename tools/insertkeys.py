@@ -37,16 +37,26 @@ class GenerateKeys(object):
         inCert = False
         for line in pkFile:
             if line.startswith("-"):
+                # If we detected we are at a scissor line, and were ALREADY in a cert
+                # then we need to take the built up string, convert it and append it to
+                # the cert list.
+                if inCert == True:
+                    # Base 64 includes uppercase. DO NOT tolower()
+                    self._base64Key.append(base64Key)
+
+                    # Pkgmanager and setool see hex strings with lowercase, lets be consistent.
+                    self._base16Key.append(base64.b16encode(base64.b64decode(base64Key)).lower())
+
+                # We have encountered scissor lines, we must toggle state between in/out of cert.
                 inCert = not inCert
                 continue
 
+            # If we are NOT in a cert, skip the lin
+            if inCert == False:
+                continue
+
+            # We are IN a cert, strip whitespace and add to our key string
             base64Key += line.strip()
-
-        # Base 64 includes uppercase. DO NOT tolower()
-        self._base64Key.append(base64Key)
-
-        # Pkgmanager and setool see hex strings with lowercase, lets be consistent.
-        self._base16Key.append(base64.b16encode(base64.b64decode(base64Key)).lower())
 
     def __len__(self):
         return len(self._base16Key)
