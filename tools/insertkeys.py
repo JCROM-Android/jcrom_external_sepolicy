@@ -40,6 +40,9 @@ class GenerateKeys(object):
                 inCert = not inCert
                 continue
 
+            if(inCert == False):
+                continue
+
             base64Key += line.strip()
 
         # Base 64 includes uppercase. DO NOT tolower()
