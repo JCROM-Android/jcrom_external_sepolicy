@@ -35,9 +35,16 @@ class GenerateKeys(object):
         pkFile = open(path, 'rb').readlines()
         base64Key = ""
         inCert = False
+        foundCert = False
         for line in pkFile:
             if line.startswith("-"):
                 inCert = not inCert
+                if inCert == foundCert:
+                    sys.exit("Multiple certs found in pem file: " + path)
+                foundCert = True
+                continue
+
+            if(inCert == False):
                 continue
 
             base64Key += line.strip()
