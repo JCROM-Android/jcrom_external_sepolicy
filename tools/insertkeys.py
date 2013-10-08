@@ -21,9 +21,9 @@ class GenerateKeys(object):
         Generates an object with Base16 and Base64 encoded versions of the keys
         found in the supplied pem file argument. PEM files can contain multiple
         certs, however this seems to be unused in Android as pkg manager grabs
-        the first cert in the APK. This will however support multiple certs in
-        the resulting generation with index[0] being the first cert in the pem
-        file.
+        the first cert in the APK. This could be extended to supporting multiple
+        pems in a file, as it appends to an internal list, rather then a single
+        location.
         '''
 
         self._base64Key = list()
@@ -32,21 +32,30 @@ class GenerateKeys(object):
         if not os.path.isfile(path):
             sys.exit("Path " + path + " does not exist or is not a file!")
 
-        pkFile = open(path, 'rb').readlines()
-        base64Key = ""
-        inCert = False
-        for line in pkFile:
-            if line.startswith("-"):
-                inCert = not inCert
-                continue
+        # Read the pem file and split into chunks based on newline
+        base64Key = open(path).read()
+        # Filter out whitespace
+        base64Key = base64Key.strip()
+        # list-ify based on newline
+        base64Key = base64Key.split("\n")
 
-            base64Key += line.strip()
+        # Should start with the proper header
+        if base64Key[0] != "-----BEGIN CERTIFICATE-----":
+            sys.exit("pem file starts with improper header, found \""+base64Key[0]+"\" " + path)
+        # Should end with the proper footer
+        if base64Key[-1] != "-----END CERTIFICATE-----":
+            sys.exit("pem file ends with improper footer, found \""+base64Key[-1]+"\" " + path)
 
-        # Base 64 includes uppercase. DO NOT tolower()
+        # Strip header and footer
+        base64Key = base64Key[1:-1]
+        # Join to a single string
+        base64Key = "".join(base64Key)
+
         self._base64Key.append(base64Key)
-
-        # Pkgmanager and setool see hex strings with lowercase, lets be consistent.
-        self._base16Key.append(base64.b16encode(base64.b64decode(base64Key)).lower())
+        try:
+            self._base16Key.append(base64.b16encode(base64.b64decode(base64Key)).lower())
+        except TypeError:
+            sys.exit("pem file contains improper values: " + path)
 
     def __len__(self):
         return len(self._base16Key)
