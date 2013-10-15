@@ -323,6 +323,27 @@ allow $1 $1_devpts:chr_file { open getattr read write ioctl };
 ')
 
 #####################################
+# dumplog_create(domain)
+# Allow a domain to read, write and create dumplogs.
+define(`dumplog_create', `
+allow $1 dumplog_data_file:dir create_dir_perms;
+allow $1 dumplog_data_file:file create_file_perms;
+allow $1 dumplog_data_file:sock_file create_file_perms;
+allow $1 bugreport_exec:file { execute execute_no_trans };
+allow $1 dumpstate_exec:file { execute execute_no_trans };
+allow $1 dumpsys_exec:file { execute execute_no_trans };
+')
+
+#####################################
+# unix_socket_rw(clientdomain, serverdomain)
+# Allow a local socket read and write from clientdomain via
+# socket to serverdomain.
+define(`unix_socket_rw', `
+allow $1 $2:unix_stream_socket connectto;
+allow $1 $2:unix_stream_socket { read write };
+')
+
+#####################################
 # Non system_app application set
 #
 define(`non_system_app_set', `{ appdomain -system_app }')
