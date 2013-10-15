@@ -459,6 +459,45 @@ static void free_kvp(kvp *k) {
 }
 
 /**
+ * Checks a rule_map for any variation of KVP's that shouldn't be allowed.
+ * Note that this function logs all errors.
+ *
+ * Current Checks:
+ * 1. A specified name entry should have an seinfo entry as well
+ * @param rm
+ *  The rule map to check for validity
+ * @return
+ *  0 on success, -1 on error
+ */
+static int rule_map_validate(rule_map *rm) {
+
+	int i;
+	char *found_name = NULL;
+	char *found_seinfo = NULL;
+	key_map *tmp;
+
+	for(i=0; i < rm->length; i++) {
+		tmp = &(rm->m[i]);
+
+		printf("%s = %s\n", tmp->name, tmp->data);
+
+		if(!strcmp(tmp->name, "name") && tmp->data) {
+			found_name = tmp->data;
+		}
+		if(!strcmp(tmp->name, "seinfo") && tmp->data) {
+			found_seinfo = tmp->data;
+		}
+	}
+
+	if(found_name && !found_seinfo) {
+		log_error("No seinfo specified with name=\"%s\", on line: %d\n", found_name, rm->lineno);
+		return -1;
+	}
+
+	return 0;
+}
+
+/**
  * Given a set of key value pairs, this will construct a new rule map.
  * On error this function calls exit.
  * @param keys
@@ -473,6 +512,7 @@ static void free_kvp(kvp *k) {
 static rule_map *rule_map_new(kvp keys[], unsigned int num_of_keys, int lineno) {
 
 	unsigned int i = 0, j = 0;
+	int rc;
 	rule_map *new_map = NULL;
 	kvp *k = NULL;
 	key_map *r = NULL, *x = NULL;
@@ -543,6 +583,12 @@ static rule_map *rule_map_new(kvp keys[], unsigned int num_of_keys, int lineno) 
 
 	if (new_map->key == NULL) {
 		log_error("Strange, no keys found, input file corrupt perhaps?\n");
+		goto err;
+	}
+
+	rc = rule_map_validate(new_map);
+	if(rc) {
+		/* Error message logged from rule_map_validate() */
 		goto err;
 	}
 
