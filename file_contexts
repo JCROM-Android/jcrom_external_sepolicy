@@ -145,6 +145,7 @@
 /system/bin/dnsmasq     u:object_r:dnsmasq_exec:s0
 /system/bin/hostapd     u:object_r:hostapd_exec:s0
 /system/bin/clatd	u:object_r:clatd_exec:s0
+/system/lib(/.*)?       u:object_r:system_library_file:s0
 #############################
 # Vendor files
 #
@@ -165,9 +166,15 @@
 /data/app/vmdl.*\.tmp	u:object_r:apk_tmp_file:s0
 /data/app-private(/.*)?		u:object_r:apk_private_data_file:s0
 /data/app-private/vmdl.*\.tmp	u:object_r:apk_private_tmp_file:s0
+/data/app-lib(/.*)?     u:object_r:app_library_file:s0
+/data/bcmnfc(/.*)?      u:object_r:nfc_data_file:s0
+/data/log(/.*)?         u:object_r:dumplog_data_file:s0
+/data/media(/.*)?       u:object_r:media_data_file:s0
+/data/media/obb(/.*)?   u:object_r:obb_apk_file:s0
 /data/tombstones(/.*)?	u:object_r:tombstone_data_file:s0
 /data/local/tmp(/.*)?	u:object_r:shell_data_file:s0
 # Misc data
+/data/misc/audit(/.*)?          u:object_r:audit_log:s0
 /data/misc/bluetooth(/.*)?	u:object_r:bluetooth_data_file:s0
 /data/misc/bluedroid(/.*)?	u:object_r:bluetooth_data_file:s0
 /data/misc/keystore(/.*)?	u:object_r:keystore_data_file:s0
@@ -176,6 +183,7 @@
 /data/misc/wifi(/.*)?		u:object_r:wifi_data_file:s0
 /data/misc/camera(/.*)?	u:object_r:camera_calibration_file:s0
 /data/misc/dhcp(/.*)?           u:object_r:dhcp_data_file:s0
+/data/misc/audio(/.*)?          u:object_r:audio_data_file:s0
 /data/misc/adb(/.*)?            u:object_r:adb_keys_file:s0
 # App sandboxes
 /data/data/.*		u:object_r:app_data_file:s0
@@ -189,6 +197,9 @@
 # efs files
 #
 /efs(/.*)?		u:object_r:efs_file:s0
+/efs/FactoryApp(/.*)?   u:object_r:app_efs_file:s0
+/efs/imei(/.*)?         u:object_r:imei_efs_file:s0
+/efs/wifi(/.*)?         u:object_r:wifi_efs_file:s0
 #############################
 # Cache files
 #
