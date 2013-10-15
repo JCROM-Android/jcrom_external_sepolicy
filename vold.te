@@ -9,11 +9,13 @@ allow vold system_file:file x_file_perms;
 allow vold block_device:dir create_dir_perms;
 allow vold block_device:blk_file create_file_perms;
 allow vold device:dir write;
+allow vold device:dir create_dir_perms;
 allow vold devpts:chr_file rw_file_perms;
 allow vold rootfs:dir mounton;
 allow vold sdcard_type:dir mounton;
 allow vold sdcard_type:filesystem { mount remount unmount };
 allow vold sdcard_type:dir create_dir_perms;
+allow vold sdcard_type:file create_file_perms;
 allow vold tmpfs:filesystem { mount unmount };
 allow vold tmpfs:dir create_dir_perms;
 allow vold tmpfs:dir mounton;
@@ -28,6 +30,8 @@ allow vold domain:dir r_dir_perms;
 allow vold domain:{ file lnk_file } r_file_perms;
 allow vold domain:process { signal sigkill };
 allow vold self:capability { sys_ptrace };
+allow vold self:capability { kill sys_resource ipc_lock };
+allow vold self:capability2 syslog;
 
 # XXX Label sysfs files with a specific type?
 allow vold sysfs:file rw_file_perms;
@@ -47,12 +51,15 @@ allow vold labeledfs:filesystem { mount unmount remount };
 # Access /efs/userdata_footer.
 # XXX Split into a separate type?
 allow vold efs_file:file rw_file_perms;
+allow vold efs_file:dir r_dir_perms;
 
 # Create and mount on /data/tmp_mnt.
 allow vold system_data_file:dir { create rw_dir_perms mounton };
 
 # Set scheduling policy of kernel processes
 allow vold kernel:process setsched;
+
+allow vold kernel:system syslog_read;
 
 # Property Service
 allow vold vold_prop:property_service set;
@@ -61,6 +68,16 @@ allow vold powerctl_prop:property_service set;
 # ASEC
 allow vold asec_image_file:file create_file_perms;
 allow vold asec_image_file:dir rw_dir_perms;
+allow vold asec_image_file:dir { mounton create };
 security_access_policy(vold)
 allow vold asec_apk_file:dir { rw_dir_perms setattr };
+allow vold asec_apk_file:dir { create_dir_perms mounton };
 allow vold asec_apk_file:file { r_file_perms setattr };
+
+#Permissions to access directories and files
+allow vold system_data_file:file create_file_perms;
+allow vold system_data_file:lnk_file r_file_perms;
+allow vold media_data_file:dir create_dir_perms;
+allow vold media_data_file:file create_file_perms;
+allow vold platform_app_data_file:file rw_file_perms;
+
