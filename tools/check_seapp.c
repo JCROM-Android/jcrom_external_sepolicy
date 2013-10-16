@@ -100,7 +100,7 @@ struct kvp {
  */
 struct rule_map {
 	char *key; /** key value before hashing */
-	int length; /** length of the key map */
+	size_t length; /** length of the key map */
 	int lineno; /** Line number rule was encounter on */
 	key_map m[]; /** key value mapping */
 };
@@ -340,7 +340,7 @@ out:
  */
 static void rule_map_print(FILE *fp, rule_map *r) {
 
-	int i;
+	size_t i;
 	key_map *m;
 
 	for (i = 0; i < r->length; i++) {
@@ -363,12 +363,12 @@ static void rule_map_print(FILE *fp, rule_map *r) {
  */
 static map_match rule_map_cmp(rule_map *rmA, rule_map *rmB) {
 
-	int i;
-	int j;
+	size_t i;
+	size_t j;
 	int inputs_found = 0;
 	int num_of_matched_inputs = 0;
 	int input_mode = 0;
-	int matches = 0;
+	size_t matches = 0;
 	key_map *mA;
 	key_map *mB;
 
