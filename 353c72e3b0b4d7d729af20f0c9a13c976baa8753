@@ -1,0 +1,12 @@
+Code-Review+2: Nick Kralevich <nnk@google.com>
+Verified+1: Nick Kralevich <nnk@google.com>
+Code-Review+1: Stephen Smalley <sds@tycho.nsa.gov>
+Code-Review+2: Geremy Condra <gcondra@google.com>
+Verified+1: Geremy Condra <gcondra@google.com>
+Code-Review+1: William Roberts <wroberts@tresys.com>
+Code-Review+1: Robert Craig <robertpcraig@gmail.com>
+Submitted-by: Nick Kralevich <nnk@google.com>
+Submitted-at: Mon, 21 Oct 2013 22:33:52 +0000
+Reviewed-on: https://android-review.googlesource.com/68394
+Project: platform/external/sepolicy
+Branch: refs/heads/master
