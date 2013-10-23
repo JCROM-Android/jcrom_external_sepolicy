@@ -38,6 +38,9 @@ write_klog(vold)
 # Rules to support encrypted fs support.
 #
 
+# Write to /proc/sysrq-trigger (android_reboot).
+allow vold sysrq_proc:file w_file_perms;
+
 # Set property.
 unix_socket_connect(vold, property, init)
 
