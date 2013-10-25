@@ -174,6 +174,8 @@ mac_perms_keys.tmp := $(intermediates)/keys.tmp
 $(mac_perms_keys.tmp) : $(call build_policy, keys.conf)
 	@mkdir -p $(dir $@)
 	$(hide) m4 -s $^ > $@
+	$(hide) echo "[DEFAULT]" >> $@
+	$(hide) echo "DEFAULT_SYSTEM_DEV_CERTIFICATE: $(dir $(DEFAULT_SYSTEM_DEV_CERTIFICATE))" >> $@
 
 ALL_MAC_PERMS_FILES := $(call build_policy, $(LOCAL_MODULE))
 
