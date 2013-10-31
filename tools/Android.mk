@@ -38,9 +38,19 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := sepolicy-check
 LOCAL_MODULE_TAGS := optional
-LOCAL_C_INCLUDES := external/libsepol/include \
-                    external/libselinux/include
+LOCAL_C_INCLUDES := external/libsepol/include
 LOCAL_SRC_FILES := sepolicy-check.c
-LOCAL_STATIC_LIBRARIES := libsepol libselinux
+LOCAL_STATIC_LIBRARIES := libsepol
+
+include $(BUILD_HOST_EXECUTABLE)
+
+###################################
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := sepolicy-analyze
+LOCAL_MODULE_TAGS := optional
+LOCAL_C_INCLUDES := external/libsepol/include
+LOCAL_SRC_FILES := sepolicy-analyze.c
+LOCAL_STATIC_LIBRARIES := libsepol
 
 include $(BUILD_HOST_EXECUTABLE)
