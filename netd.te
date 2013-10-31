@@ -24,6 +24,9 @@ allow netd proc:file write;
 # XXX Split into its own type.
 allow netd sysfs:file write;
 
+# Trigger module auto-load for network driver.
+allow netd kernel:system module_request;
+
 # Set dhcp lease for PAN connection
 unix_socket_connect(netd, property, init)
 allow netd system_prop:property_service set;

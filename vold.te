@@ -48,6 +48,9 @@ allow vold labeledfs:filesystem { mount unmount remount };
 # XXX Split into a separate type?
 allow vold efs_file:file rw_file_perms;
 
+# Trigger module auto-load for AES module.
+allow vold kernel:system module_request;
+
 # Create and mount on /data/tmp_mnt.
 allow vold system_data_file:dir { create rw_dir_perms mounton };
 
