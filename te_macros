@@ -279,7 +279,7 @@ allow $1 security_prop:property_service set;
 # and execute the logcat command
 define(`access_logcat', `
 allow $1 log_device:chr_file read;
-allow $1 system_file:file x_file_perms;
+allow $1 logcat_exec:file x_file_perms;
 ')
 
 #####################################
@@ -338,3 +338,38 @@ define(`userdebug_or_eng', ifelse(target_build_variant, `eng', $1, ifelse(target
 # has ceased.
 #
 define(`permissive_or_unconfined', ifelse(force_permissive_to_unconfined, `false', permissive $1;, unconfined_domain($1)))
+
+#####################################
+# write_logd(domain)
+# Ability to write to android log
+# daemon via sockets
+define(`write_logd', `
+userdebug_or_eng(`
+  # Debug output
+  type_transition $1 device:file logd_debug;
+  allow $1 device:dir rw_dir_perms;
+  allow $1 logd_debug:file create_file_perms;
+')
+
+allow $1 logd_socket:sock_file rw_file_perms;
+unix_socket_send($1, logdw, logd)
+')
+
+#####################################
+# read_logd(domain)
+# Ability to read and write to android
+# log daemon via sockets
+define(`read_logd', `
+write_logd($1)
+unix_socket_send($1, logdr, logd)
+allow $1 logd:unix_stream_socket connectto;
+')
+
+#####################################
+# control_logd(domain)
+# Ability to read, write and control
+# android log daemon via sockets
+define(`control_logd', `
+read_logd($1)
+unix_socket_send($1, logd, logd)
+')

@@ -1,0 +1,46 @@
+# android user-space log manager
+type logcat, domain;
+type logcat_exec, exec_type, file_type;
+domain_auto_trans(shell, logcat_exec, logcat)
+domain_auto_trans(dumpstate, logcat_exec, logcat)
+domain_auto_trans(adbd, logcat_exec, logcat)
+#domain_auto_trans(untrusted_app, logcat_exec, logcat)
+allow logcat shell:unix_dgram_socket { read write };
+
+allow logcat shell:fd use;
+allow logcat dumpstate:fd use;
+allow logcat devpts:chr_file { read write getattr ioctl };
+allow logcat shell:fifo_file { read write getattr ioctl };
+allow logcat console_device:chr_file { read write getattr ioctl };
+
+allow logcat self:capability setgid;
+
+# logd access
+control_logd(logcat)
+
+###
+### Neverallow rules
+###
+### logcat should NEVER do any of this
+
+# Block device access.
+neverallow logcat dev_type:blk_file { read write };
+
+# Kernel memory access.
+neverallow logcat kmem_device:chr_file { read write };
+
+# Setting SELinux enforcing status or booleans.
+neverallow logcat kernel:security { setenforce setbool };
+
+# Load security policy.
+neverallow logcat kernel:security load_policy;
+
+# ptrace any other app
+neverallow logcat { domain }:process ptrace;
+
+# Write to /system.
+neverallow logcat system_file:dir_file_class_set write;
+
+# Write to files in /data/data or system files on /data
+neverallow logcat { app_data_file system_data_file }:dir_file_class_set write;
+
