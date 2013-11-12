@@ -48,3 +48,6 @@ binder_call(surfaceflinger, shell)
 # but seems expected and appropriate for all devices.
 allow surfaceflinger tee:unix_stream_socket connectto;
 allow surfaceflinger tee_device:chr_file rw_file_perms;
+
+# logd access
+access_logcat(surfaceflinger)

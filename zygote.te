@@ -57,3 +57,6 @@ allow zygote servicemanager:binder { call };
 # See discussion of Unlabeled files in domain.te for more information.
 # This rule is for dalvikcache mmap/mprotect PROT_EXEC.
 allow zygote unlabeled:file execute;
+
+# logd access
+access_logcat(zygote)

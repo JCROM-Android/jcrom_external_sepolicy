@@ -70,3 +70,6 @@ allow adbd appdomain:unix_stream_socket connectto;
 # ndk-gdb invokes adb pull of app_process, linker, and libc.so.
 allow adbd zygote_exec:file r_file_perms;
 allow adbd system_file:file r_file_perms;
+
+# logd access
+access_logcat(adbd)

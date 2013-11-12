@@ -272,7 +272,7 @@ neverallow { appdomain -unconfineddomain } { domain -appdomain }:process
 
 # Transition to a non-app domain.
 # Exception for the shell domain, can transition to runas, etc.
-neverallow { appdomain -shell -unconfineddomain } ~appdomain:process
+neverallow { appdomain -shell -unconfineddomain } ~{ appdomain logcat }:process
     { transition dyntransition };
 
 # Map low memory.

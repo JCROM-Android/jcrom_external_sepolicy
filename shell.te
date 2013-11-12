@@ -9,4 +9,7 @@ net_domain(shell)
 # XXX Transition into its own domain?
 app_domain(shell)
 
+# logd access
+access_logcat(shell)
+
 # inherits from shelldomain.te

@@ -73,3 +73,6 @@ allow dumpstate self:capability sys_ptrace;
 # /data/data/com.android.shell/files/bugreports/bugreport
 allow dumpstate shell_data_file:dir create_dir_perms;
 allow dumpstate shell_data_file:file create_file_perms;
+
+# logd access
+access_logcat(dumpstate)
