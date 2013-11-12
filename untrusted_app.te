@@ -50,3 +50,7 @@ create_pty(untrusted_app)
 # Figure out a way to remove these rules.
 allow untrusted_app shell_data_file:file r_file_perms;
 allow untrusted_app shell_data_file:dir r_dir_perms;
+
+# logd access, jni event reading has a wide swath
+read_logd(untrusted_app)
+allow logcat untrusted_app_devpts:chr_file { read write getattr ioctl };
