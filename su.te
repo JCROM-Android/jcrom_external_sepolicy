@@ -17,6 +17,9 @@ userdebug_or_eng(`
   tmpfs_domain(su)
   allow su su_tmpfs:file execute;
 
+  relabelto_domain(su)
+  allow su logcat_exec:file relabelto;
+
   # su is also permissive to permit setenforce.
   permissive su;
 ')

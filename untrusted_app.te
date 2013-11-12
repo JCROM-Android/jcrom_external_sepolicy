@@ -50,3 +50,7 @@ create_pty(untrusted_app)
 # Figure out a way to remove these rules.
 allow untrusted_app shell_data_file:file r_file_perms;
 allow untrusted_app shell_data_file:dir r_dir_perms;
+
+# logd access, allow the apps to read their own logs
+rw_logd(domain)
+allow untrusted_app logcat_exec:file rx_file_perms;

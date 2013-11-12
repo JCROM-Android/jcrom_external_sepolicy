@@ -1,0 +1,46 @@
+# android user-space log manager
+type logd, domain;
+type logd_exec, exec_type, file_type;
+
+init_daemon_domain(logd)
+allow logd self:unix_stream_socket *;
+
+allow logd self:capability { setuid setgid sys_nice };
+
+r_dir_file(logd, domain)
+
+userdebug_or_eng(`
+  # Debug output
+  allow logd { logd_debug device }:file create_file_perms;
+')
+
+# Sockets
+allow logd logdw_socket:sock_file r_file_perms;
+allow logd logdr_socket:sock_file rw_file_perms;
+allow logd logd_socket:sock_file rw_file_perms;
+
+###
+### Neverallow rules
+###
+### logd should NEVER do any of this
+
+# Block device access.
+neverallow logd dev_type:blk_file { read write };
+
+# Kernel memory access.
+neverallow logd kmem_device:chr_file { read write };
+
+# Setting SELinux enforcing status or booleans.
+neverallow logd kernel:security { setenforce setbool };
+
+# Load security policy.
+neverallow logd kernel:security load_policy;
+
+# ptrace any other app
+neverallow logd { domain }:process ptrace;
+
+# Write to /system.
+neverallow logd system_file:dir_file_class_set write;
+
+# Write to files in /data/data or system files on /data
+neverallow logd { app_data_file system_data_file }:dir_file_class_set write;

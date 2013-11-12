@@ -338,3 +338,36 @@ define(`userdebug_or_eng', ifelse(target_build_variant, `eng', $1, ifelse(target
 # has ceased.
 #
 define(`permissive_or_unconfined', ifelse(force_permissive_to_unconfined, `false', permissive $1;, unconfined_domain($1)))
+
+# w_logd(domain)
+# Ability to write to android log
+# daemon via sockets
+define(`w_logd', `
+userdebug_or_eng(`
+  allow $1 { logd_debug device }:file create_file_perms;
+')
+allow $1 logd_socket:sock_file rw_file_perms;
+unix_socket_send($1, logdw, logd)
+allow $1 logdw_socket:sock_file w_file_perms;
+')
+
+#####################################
+# rw_logd(domain)
+# Ability to read and write to android
+# log daemon via sockets
+define(`rw_logd', `
+w_logd($1)
+unix_socket_send($1, logdr, logd)
+allow $1 logd:unix_stream_socket connectto;
+allow $1 logdr_socket:sock_file rw_file_perms;
+')
+
+#####################################
+# rwx_logd(domain)
+# Ability to read, write and control
+# android log daemon via sockets
+define(`rwx_logd', `
+rw_logd($1)
+unix_socket_send($1, logd, logd)
+allow $1 logd_socket:sock_file rw_file_perms;
+')
