@@ -3,7 +3,6 @@
 # Most of the framework services run in this process.
 #
 type system_server, domain, mlstrustedsubject;
-permissive system_server;
 
 # Dalvik Compiler JIT Mapping.
 allow system_server self:process execmem;
