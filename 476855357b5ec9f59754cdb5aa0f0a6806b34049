@@ -1,0 +1,7 @@
+Code-Review+2: Geremy Condra <gcondra@google.com>
+Verified+1: Geremy Condra <gcondra@google.com>
+Submitted-by: Nick Kralevich <nnk@google.com>
+Submitted-at: Thu, 28 Nov 2013 01:01:40 +0000
+Reviewed-on: https://android-review.googlesource.com/70985
+Project: platform/external/sepolicy
+Branch: refs/heads/master
