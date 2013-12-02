@@ -12,6 +12,7 @@ MLS_CATS=1024
 
 ifeq ($(TARGET_BUILD_VARIANT),user)
 	BOARD_SEPOLICY_IGNORE+=external/sepolicy/su.te
+	BOARD_SEPOLICY_IGNORE+=external/sepolicy/adbd_eng.te
 else
 	BOARD_SEPOLICY_IGNORE+=external/sepolicy/su_user.te
 endif

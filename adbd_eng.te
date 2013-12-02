@@ -1,0 +1,2 @@
+# adbd is permissive on eng and userdebug builds
+permissive adbd;
