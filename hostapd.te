@@ -1,6 +1,5 @@
 # userspace wifi access points
 type hostapd, domain;
-permissive hostapd;
 type hostapd_exec, exec_type, file_type;
 
 allow hostapd self:capability { net_admin net_raw setuid setgid };
