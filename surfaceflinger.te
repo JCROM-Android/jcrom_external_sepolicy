@@ -14,6 +14,7 @@ binder_use(surfaceflinger)
 binder_call(surfaceflinger, system_server)
 binder_service(surfaceflinger)
 allow surfaceflinger init:binder transfer;
+allow surfaceflinger init_child:binder transfer;
 
 # Access /dev/graphics/fb0.
 allow surfaceflinger graphics_device:dir search;

@@ -1,0 +1,5 @@
+# Children of init that lack a specific domain transition.
+type init_child, domain;
+
+domain_auto_trans(init, system_file, init_child)
+unconfined_domain(init_child)
