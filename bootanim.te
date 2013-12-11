@@ -1,0 +1,19 @@
+# bootanimation oneshot service
+type bootanim, domain;
+type bootanim_exec, exec_type, file_type;
+
+init_daemon_domain(bootanim)
+
+binder_use(bootanim)
+binder_call(bootanim, surfaceflinger)
+
+allow bootanim gpu_device:chr_file rw_file_perms;
+
+# Attempt to set service.bootanim.exit property.
+# This is ultimately blocked by DAC.  Would require
+# DAC permission in property_service as well as the
+# commented-out allow rule below to succeed.
+unix_socket_connect(bootanim, property, init)
+#allow bootanim system_prop:property_service set;
+
+permissive bootanim;
