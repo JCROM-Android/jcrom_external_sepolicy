@@ -185,8 +185,11 @@ allow $1 $2:fd use;
 # binder_service(domain)
 # Mark a domain as being a Binder service domain.
 # Used to allow binder IPC to the various system services.
+# Allow dumpstate to collect information from binder services
 define(`binder_service', `
 typeattribute $1 binderservicedomain;
+allow $1 dumpstate:fd use;
+allow $1 dumpstate:unix_stream_socket { read write getopt getattr };
 ')
 
 #####################################
