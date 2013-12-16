@@ -304,7 +304,9 @@ neverallow { appdomain -unconfineddomain }
 
 # Access to factory files.
 neverallow { appdomain -unconfineddomain }
-    efs_file:dir_file_class_set { read write };
+    efs_file:dir { write add_name remove_name };
+neverallow { appdomain -unconfineddomain }
+    efs_file:file_class_set { read write };
 
 # Write to various pseudo file systems.
 neverallow { appdomain -nfc -unconfineddomain }

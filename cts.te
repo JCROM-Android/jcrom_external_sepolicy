@@ -1,0 +1,17 @@
+#
+# Rules to allow the Android CTS to run.
+# Only security-related tests that we would not expect
+# to be performed by regular apps go here.
+
+# For TestDeviceSetup (RootProcessScanner).
+# Reads /proc/pid/status and statm entries to check that
+# no unexpected root processes are running.
+# Also for android.security.cts.VoldExploitTest.
+# Requires ability to read /proc/pid/cmdline of vold.
+allow appdomain domain:dir { open read search getattr };
+allow appdomain domain:{ file lnk_file } { open read getattr };
+
+# For android.permission.cts.FileSystemPermissionTest.
+# Walk the file tree, stat any file in order to check file permissions.
+allow appdomain { fs_type dev_type file_type }:dir { open read search getattr };
+allow appdomain { fs_type dev_type file_type }:file_class_set getattr;
