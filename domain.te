@@ -143,14 +143,16 @@ neverallow { domain -init } kernel:security load_policy;
 neverallow { domain -kernel } kernel:security setenforce;
 
 # Only init, ueventd and system_server should be able to access HW RNG
-neverallow { domain -init -system_server -ueventd -unconfineddomain } hw_random_device:chr_file *;
+# Exception for getattr to permit stat(2) for checking permissions in CTS.
+neverallow { domain -init -system_server -ueventd -unconfineddomain } hw_random_device:chr_file ~getattr;
 
 # Ensure that all entrypoint executables are in exec_type.
 neverallow domain { file_type -exec_type }:file entrypoint;
 
-# Ensure that nothing in userspace can access /dev/mem or /dev/kmem
-neverallow { domain -kernel -ueventd -init } kmem_device:chr_file *;
-neverallow domain kmem_device:chr_file ~{ create relabelto unlink setattr };
+# Ensure that nothing in userspace can access /dev/mem or /dev/kmem.
+# Exception for getattr to permit stat(2) for checking permissions in CTS.
+neverallow { domain -kernel -ueventd -init } kmem_device:chr_file ~getattr;
+neverallow domain kmem_device:chr_file ~{ create relabelto unlink setattr getattr };
 
 # Only init should be able to configure kernel usermodehelpers or
 # security-sensitive proc settings.
