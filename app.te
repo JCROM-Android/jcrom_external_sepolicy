@@ -153,6 +153,23 @@ allow appdomain usb_device:chr_file { read write getattr ioctl };
 allow appdomain usbaccessory_device:chr_file { read write getattr };
 
 ###
+### CTS-specific rules
+###
+
+# For cts/tools/device-setup/TestDeviceSetup/src/android/tests/getinfo/RootProcessScanner.java.
+# Reads /proc/pid/status and statm entries to check that
+# no unexpected root processes are running.
+# Also for cts/tests/tests/security/src/android/security/cts/VoldExploitTest.java
+# Reads /proc/pid/cmdline of vold.
+allow appdomain domain:dir { open read search getattr };
+allow appdomain domain:{ file lnk_file } { open read getattr };
+
+# For cts/tests/tests/permission/src/android/permission/cts/FileSystemPermissionTest.java.
+# testRunAsHasCorrectCapabilities
+allow appdomain runas_exec:file getattr;
+# Others are either allowed elsewhere or not desired.
+
+###
 ### Neverallow rules
 ###
 ### These are things that Android apps should NEVER be able to do
