@@ -9,4 +9,7 @@ app_domain(shell)
 # userdebug/eng shell is also permissive to permit setenforce.
 permissive shell;
 
+# On userdebug / eng builds, allow the setting of any property.
+allow shell property_type:property_service set;
+
 # inherits from shelldomain.te
