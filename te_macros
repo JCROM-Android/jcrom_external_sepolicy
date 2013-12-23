@@ -88,8 +88,7 @@ typeattribute $1 unconfineddomain;
 define(`tmpfs_domain', `
 type $1_tmpfs, file_type;
 type_transition $1 tmpfs:file $1_tmpfs;
-# Map with PROT_EXEC.
-allow $1 $1_tmpfs:file { read write execute execmod };
+allow $1 $1_tmpfs:file { read write };
 ')
 
 #####################################
@@ -108,6 +107,8 @@ define(`app_domain', `
 typeattribute $1 appdomain;
 # Label ashmem objects with our own unique type.
 tmpfs_domain($1)
+# Map with PROT_EXEC.
+allow $1 $1_tmpfs:file execute;
 ')
 
 #####################################

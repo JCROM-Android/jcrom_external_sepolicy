@@ -91,8 +91,12 @@ unix_socket_send(system_server, wpa, wpa)
 # Communicate over a socket created by surfaceflinger.
 allow system_server surfaceflinger:unix_stream_socket { read write setopt };
 
-# Perform Binder IPC.
+# Define a type for tmpfs-backed ashmem regions.
 tmpfs_domain(system_server)
+# Map with PROT_EXEC for dalvik Compiler.
+allow system_server system_server_tmpfs:file execute;
+
+# Perform Binder IPC.
 binder_use(system_server)
 binder_call(system_server, binderservicedomain)
 binder_call(system_server, appdomain)
