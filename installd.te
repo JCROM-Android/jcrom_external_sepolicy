@@ -31,3 +31,6 @@ allow installd bluetooth_data_file:lnk_file { create setattr };
 allow installd nfc_data_file:lnk_file { create setattr };
 allow installd radio_data_file:lnk_file { create setattr };
 allow installd shell_data_file:lnk_file { create setattr };
+# Rename and chown/chmod app data files.
+allow installd platform_app_data_file:{ dir notdevfile_class_set } { rename setattr };
+allow installd app_data_file:{ dir notdevfile_class_set } { rename setattr };
