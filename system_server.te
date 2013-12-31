@@ -54,7 +54,7 @@ dontaudit system_server self:capability sys_ptrace;
 allow system_server kernel:system module_request;
 
 # Use netlink uevent sockets.
-allow system_server self:netlink_kobject_uevent_socket *;
+allow system_server self:netlink_kobject_uevent_socket create_socket_perms;
 
 # Kill apps.
 allow system_server appdomain:process { sigkill signal };
@@ -75,7 +75,7 @@ allow system_server qtaguid_device:chr_file rw_file_perms;
 allow system_server debugfs:file r_file_perms;
 
 # WifiWatchdog uses a packet_socket
-allow system_server self:packet_socket *;
+allow system_server self:packet_socket create_socket_perms;
 
 # 3rd party VPN clients require a tun_socket to be created
 allow system_server self:tun_socket create;
