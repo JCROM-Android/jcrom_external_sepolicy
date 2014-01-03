@@ -10,5 +10,9 @@ allow nfc nfc_device:chr_file rw_file_perms;
 allow nfc nfc_data_file:dir create_dir_perms;
 allow nfc nfc_data_file:notdevfile_class_set create_file_perms;
 
+# SDCard access.  Seen during adb backup.
+allow nfc sdcard_type:dir create_dir_perms;
+allow nfc sdcard_type:file create_file_perms;
+
 allow nfc sysfs_nfc_power_writable:file rw_file_perms;
 allow nfc sysfs:file write;
