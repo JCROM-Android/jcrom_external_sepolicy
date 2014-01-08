@@ -53,6 +53,8 @@ type dalvikcache_data_file, file_type, data_file_type;
 type shell_data_file, file_type, data_file_type;
 # /data/gps
 type gps_data_file, file_type, data_file_type;
+# /data/mediadrm
+type mediadrm_data_file, file_type, data_file_type;
 
 # /data/misc subdirectories
 type adb_keys_file, file_type, data_file_type;
