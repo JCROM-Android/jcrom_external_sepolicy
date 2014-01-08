@@ -47,3 +47,6 @@ allow rild self:netlink_kobject_uevent_socket { bind create getopt read setopt }
 allow rild sysfs_wake_lock:file rw_file_perms;
 
 allow rild self:socket create_socket_perms;
+
+# Allow access to radio specific sysfs files
+allow rild sysfs_rild:file rw_file_perms;
