@@ -1,0 +1,9 @@
+Code-Review+2: JP Abgrall <jpa@google.com>
+Verified+1: JP Abgrall <jpa@google.com>
+Code-Review+1: Stephen Smalley <sds@tycho.nsa.gov>
+Code-Review+1: Daniel Cashman <dcashman@google.com>
+Submitted-by: Nick Kralevich <nnk@google.com>
+Submitted-at: Wed, 08 Jan 2014 20:59:40 +0000
+Reviewed-on: https://android-review.googlesource.com/74113
+Project: platform/external/sepolicy
+Branch: refs/heads/master
