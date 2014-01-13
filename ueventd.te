@@ -22,3 +22,8 @@ allow ueventd dev_type:blk_file { create setattr unlink };
 allow ueventd self:netlink_kobject_uevent_socket *;
 allow ueventd efs_file:dir search;
 allow ueventd efs_file:file r_file_perms;
+
+# Create /dev/__null__ with the null_device type.
+type_transition ueventd device:chr_file null_device "__null__";
+
+
