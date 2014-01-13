@@ -9,3 +9,4 @@ allow recovery unlabeled:filesystem mount;
 
 allow recovery self:process execmem;
 allow recovery cache_file:file rx_file_perms;
+allow recovery tmpfs:file rx_file_perms;
