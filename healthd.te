@@ -14,6 +14,8 @@ binder_use(healthd)
 binder_service(healthd)
 binder_call(healthd, system_server)
 
+type_transition healthd device:chr_file null_device "__null__";
+
 # Workaround for 0x10 / block_suspend capability2 denials.
 # Requires a kernel patch to fix properly.
 permissive healthd;
