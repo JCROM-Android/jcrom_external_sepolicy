@@ -9,4 +9,3 @@ allow recovery unlabeled:filesystem mount;
 
 allow recovery self:process execmem;
 allow recovery ashmem_device:chr_file execute;
-allow recovery tmpfs:file rx_file_perms;
