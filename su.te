@@ -4,6 +4,7 @@ type su_exec, exec_type, file_type;
 userdebug_or_eng(`
   type su, domain;
   domain_auto_trans(shell, su_exec, su)
+  domain_auto_trans(adbd, su_exec, su)
 
   # Allow dumpstate to call su on userdebug / eng builds to collect
   # additional information.
@@ -11,6 +12,17 @@ userdebug_or_eng(`
 
   # su is unconfined.
   unconfined_domain(su)
+
+  # execute permissions not allowed by unconfined_domain()
+  # Required for running framework commands such as pm list permissions.
+  allow su ashmem_device:chr_file execute;
+  allow su self:process execmem;
+  tmpfs_domain(su)
+  allow su su_tmpfs:file execute;
+
+  # Allow other domains to receive and use open fds and fifos from su.
+  allow domain su:fd use;
+  allow domain su:fifo_file { write getattr };
 
   # su is also permissive to permit setenforce.
   permissive su;
