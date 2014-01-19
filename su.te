@@ -4,6 +4,7 @@ type su_exec, exec_type, file_type;
 userdebug_or_eng(`
   type su, domain;
   domain_auto_trans(shell, su_exec, su)
+  allow adbd su:process dyntransition;
 
   # Allow dumpstate to call su on userdebug / eng builds to collect
   # additional information.
@@ -11,6 +12,11 @@ userdebug_or_eng(`
 
   # su is unconfined.
   unconfined_domain(su)
+
+  allow su ashmem_device:chr_file execute;
+  allow su self:process execmem;
+  tmpfs_domain(su)
+  allow su su_tmpfs:file execute;
 
   # su is also permissive to permit setenforce.
   permissive su;
