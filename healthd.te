@@ -14,6 +14,6 @@ binder_use(healthd)
 binder_service(healthd)
 binder_call(healthd, system_server)
 
-# Workaround for 0x10 / block_suspend capability2 denials.
-# Requires a kernel patch to fix properly.
-permissive healthd;
+# /dev/__null__ created by init prior to policy load,
+# open fd inherited by healthd.
+allow healthd tmpfs:chr_file { read write };
