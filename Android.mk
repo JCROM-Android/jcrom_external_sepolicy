@@ -139,6 +139,7 @@ $(LOCAL_BUILT_MODULE) : $(seapp_contexts.tmp) $(built_sepolicy) $(HOST_OUT_EXECU
 	$(HOST_OUT_EXECUTABLES)/checkseapp -p $(PRIVATE_SEPOLICY) -o $@ $<
 
 seapp_contexts.tmp :=
+
 ##################################
 include $(CLEAR_VARS)
 
@@ -159,6 +160,25 @@ $(LOCAL_BUILT_MODULE):  $(ALL_PC_FILES) $(built_sepolicy) $(HOST_OUT_EXECUTABLES
 
 property_contexts :=
 built_sepolicy :=
+##################################
+
+##################################
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := serestorecons
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+ALL_RC_FILES := $(call build_policy, serestorecons)
+
+$(LOCAL_BUILT_MODULE):  $(ALL_RC_FILES)
+	@mkdir -p $(dir $@)
+	$(hide) cat $(ALL_RC_FILES) > $@
+
+serestorecons :=
 ##################################
 
 ##################################
