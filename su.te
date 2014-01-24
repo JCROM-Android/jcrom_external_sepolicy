@@ -17,6 +17,10 @@ userdebug_or_eng(`
   tmpfs_domain(su)
   allow su su_tmpfs:file execute;
 
+  # Allow wpa_cli to work. wpa_cli creates a socket in
+  # /data/misc/wifi/sockets . wpa_supplicant then writes to this socket.
+  type_transition su wifi_data_file:sock_file wpa_socket;
+
   # su is also permissive to permit setenforce.
   permissive su;
 ')
