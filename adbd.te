@@ -1,12 +1,14 @@
 # adbd seclabel is specified in init.rc since
 # it lives in the rootfs and has no unique file type.
 type adbd, domain;
+type adbd_exec, exec_type, file_type;
 
 userdebug_or_eng(`
   permissive adbd;
   allow adbd su:process dyntransition;
 ')
 
+init_daemon_domain(adbd)
 domain_auto_trans(adbd, shell_exec, shell)
 # this is an entrypoint
 allow adbd rootfs:file entrypoint;
