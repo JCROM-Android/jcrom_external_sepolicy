@@ -29,10 +29,6 @@ allow untrusted_app sdcard_internal:file create_file_perms;
 allow untrusted_app sdcard_external:dir create_dir_perms;
 allow untrusted_app sdcard_external:file create_file_perms;
 
-# ASEC
-allow untrusted_app asec_apk_file:dir { getattr };
-allow untrusted_app asec_apk_file:file r_file_perms;
-
 # Create tcp/udp sockets
 allow untrusted_app node_type:{ tcp_socket udp_socket } node_bind;
 allow untrusted_app self:{ tcp_socket udp_socket } { create_socket_perms accept listen };
