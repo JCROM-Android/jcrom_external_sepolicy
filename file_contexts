@@ -215,4 +215,5 @@
 #############################
 # asec containers
 /mnt/asec(/.*)?         u:object_r:asec_apk_file:s0
+/mnt/asec/[^/]+/res.zip u:object_r:asec_public_file:s0
 /data/app-asec(/.*)?    u:object_r:asec_image_file:s0
