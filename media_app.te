@@ -27,3 +27,5 @@ allow media_app download_file:file create_file_perms;
 relabelto_domain(media_app)
 allow media_app platform_app_data_file:dir relabelfrom;
 allow media_app download_file:dir relabelto;
+# Allow MediaProvider to grab files from /data/local/tmp
+r_dir_file(media_app, shell_data_file)
