@@ -7,6 +7,8 @@ allow kernel init:process dyntransition;
 unconfined_domain(kernel)
 relabelto_domain(kernel)
 
+allow kernel self:capability { sys_rawio mknod };
+
 allow kernel {fs_type dev_type file_type}:dir_file_class_set relabelto;
 allow kernel unlabeled:filesystem mount;
 allow kernel fs_type:filesystem *;
