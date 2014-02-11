@@ -9,6 +9,7 @@ allow recovery self:capability2 mac_admin;
 
 allow recovery {fs_type dev_type -kmem_device file_type}:dir_file_class_set relabelto;
 allow recovery unlabeled:filesystem mount;
+allow recovery dev_type:blk_file rw_file_perms;
 allow recovery fs_type:filesystem *;
 
 allow recovery self:process execmem;

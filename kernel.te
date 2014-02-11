@@ -11,6 +11,7 @@ allow kernel self:capability { sys_rawio mknod };
 
 allow kernel {fs_type dev_type file_type}:dir_file_class_set relabelto;
 allow kernel unlabeled:filesystem mount;
+allow kernel dev_type:blk_file rw_file_perms;
 allow kernel fs_type:filesystem *;
 
 # Initial setenforce by init prior to switching to init domain.
