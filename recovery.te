@@ -17,3 +17,5 @@ allow recovery tmpfs:file rx_file_perms;
 ## TODO: Investigate whether it is safe to remove these
 allow recovery self:capability { sys_rawio mknod };
 auditallow recovery self:capability { sys_rawio mknod };
+allow recovery dev_type:blk_file rw_file_perms;
+auditallow recovery dev_type:blk_file rw_file_perms;
