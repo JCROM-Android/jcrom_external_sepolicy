@@ -1,0 +1,10 @@
+Code-Review+2: Nick Kralevich <nnk@google.com>
+Verified+1: Nick Kralevich <nnk@google.com>
+Code-Review+1: Todd Poynor <toddpoynor@google.com>
+Code-Review+1: Stephen Smalley <stephen.smalley@gmail.com>
+Code-Review+1: Daniel Cashman <dcashman@google.com>
+Submitted-by: Nick Kralevich <nnk@google.com>
+Submitted-at: Fri, 14 Feb 2014 18:02:24 +0000
+Reviewed-on: https://android-review.googlesource.com/82170
+Project: platform/external/sepolicy
+Branch: refs/heads/master
