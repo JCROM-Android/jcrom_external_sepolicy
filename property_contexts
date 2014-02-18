@@ -52,6 +52,14 @@ vold.                   u:object_r:vold_prop:s0
 crypto.                 u:object_r:vold_prop:s0
 
 # ctl properties
+ctl.bootanim            u:object_r:ctl_bootanim_prop:s0
+ctl.bugreport           u:object_r:ctl_bugreport_prop:s0
 ctl.dumpstate           u:object_r:ctl_dumpstate_prop:s0
+ctl.fuse_sdcard         u:object_r:ctl_fuse_prop:s0
+ctl.mdnsd               u:object_r:ctl_mdnsd_prop:s0
+ctl.mtpd                u:object_r:ctl_vpn_prop:s0
+ctl.racoon              u:object_r:ctl_vpn_prop:s0
 ctl.ril-daemon          u:object_r:ctl_rildaemon_prop:s0
+ctl.p2p_supplicant      u:object_r:ctl_supplicant_prop:s0
+ctl.wpa_supplicant      u:object_r:ctl_supplicant_prop:s0
 ctl.                    u:object_r:ctl_default_prop:s0
