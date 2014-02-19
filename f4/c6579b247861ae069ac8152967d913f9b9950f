@@ -1,0 +1,9 @@
+Code-Review+2: Nick Kralevich <nnk@google.com>
+Verified+1: Nick Kralevich <nnk@google.com>
+Code-Review+1: Robert Craig <rpcraig@tycho.ncsc.mil>
+Code-Review+1: William Roberts <wroberts@tresys.com>
+Submitted-by: Nick Kralevich <nnk@google.com>
+Submitted-at: Wed, 19 Feb 2014 20:29:41 +0000
+Reviewed-on: https://android-review.googlesource.com/82712
+Project: platform/external/sepolicy
+Branch: refs/heads/master
