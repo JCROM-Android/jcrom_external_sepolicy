@@ -5,3 +5,18 @@ type clatd_exec, exec_type, file_type;
 
 init_daemon_domain(clatd)
 net_domain(clatd)
+
+# Access objects inherited from netd.
+allow clatd netd:fd use;
+allow clatd netd:fifo_file { read write };
+allow clatd netd:netlink_kobject_uevent_socket { read write };
+allow clatd netd:netlink_nflog_socket { read write };
+allow clatd netd:netlink_route_socket { read write };
+allow clatd netd:udp_socket { read write };
+allow clatd netd:unix_stream_socket { read write };
+
+# TODO: Run clatd in vpn group to avoid need for this on /dev/tun.
+allow clatd self:capability dac_override;
+
+allow clatd self:netlink_route_socket { write getattr setopt connect };
+allow clatd tun_device:chr_file { read write };
