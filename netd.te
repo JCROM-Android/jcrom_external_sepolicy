@@ -5,7 +5,7 @@ type netd_exec, exec_type, file_type;
 init_daemon_domain(netd)
 net_domain(netd)
 
-allow netd self:capability { net_admin net_raw kill fsetid };
+allow netd self:capability { net_admin net_raw kill };
 allow netd self:netlink_kobject_uevent_socket *;
 allow netd self:netlink_route_socket *;
 allow netd self:netlink_nflog_socket *;
