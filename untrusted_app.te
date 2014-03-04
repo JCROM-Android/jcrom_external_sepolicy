@@ -56,3 +56,6 @@ create_pty(untrusted_app)
 # Figure out a way to remove these rules.
 allow untrusted_app shell_data_file:file r_file_perms;
 allow untrusted_app shell_data_file:dir r_dir_perms;
+
+# Access to open /data/media files passed by Binder or local socket IPC.
+allow untrusted_app media_rw_data_file:file { read getattr };
