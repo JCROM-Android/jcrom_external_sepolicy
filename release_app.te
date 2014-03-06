@@ -10,7 +10,3 @@ platform_app_domain(release_app)
 net_domain(release_app)
 # Access bluetooth.
 bluetooth_domain(release_app)
-
-# Write to /cache.
-allow release_app cache_file:dir rw_dir_perms;
-allow release_app cache_file:file create_file_perms;
