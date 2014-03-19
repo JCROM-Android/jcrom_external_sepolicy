@@ -199,10 +199,11 @@ $(mac_perms_keys.tmp) : $(call build_policy, keys.conf)
 
 ALL_MAC_PERMS_FILES := $(call build_policy, $(LOCAL_MODULE))
 
-$(LOCAL_BUILT_MODULE) : $(mac_perms_keys.tmp) $(HOST_OUT_EXECUTABLES)/insertkeys.py $(ALL_MAC_PERMS_FILES)
+$(LOCAL_BUILT_MODULE) : $(mac_perms_keys.tmp) insertkeys.py $(ALL_MAC_PERMS_FILES) post_process_mac_perms priv_apps
 	@mkdir -p $(dir $@)
 	$(hide) DEFAULT_SYSTEM_DEV_CERTIFICATE="$(dir $(DEFAULT_SYSTEM_DEV_CERTIFICATE))" \
-		$(HOST_OUT_EXECUTABLES)/insertkeys.py -t $(TARGET_BUILD_VARIANT) -c $(TOP) $< -o $@ $(ALL_MAC_PERMS_FILES)
+		insertkeys.py -t $(TARGET_BUILD_VARIANT) -c $(TOP) $< -o $@ $(ALL_MAC_PERMS_FILES)
+	$(hide) post_process_mac_perms -s release -f $@ -d $(TARGET_OUT_APPS_PRIVILEGED)
 
 mac_perms_keys.tmp :=
 ##################################
