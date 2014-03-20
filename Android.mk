@@ -126,7 +126,7 @@ $(LOCAL_BUILT_MODULE):  $(ALL_FC_FILES) $(built_sepolicy) $(HOST_OUT_EXECUTABLES
 	$(hide) m4 -s $(ALL_FC_FILES) > $@
 	$(hide) $(HOST_OUT_EXECUTABLES)/checkfc $(PRIVATE_SEPOLICY) $@
 
-file_contexts :=
+built_fc := $(LOCAL_BUILT_MODULE)
 
 ##################################
 include $(CLEAR_VARS)
@@ -147,7 +147,9 @@ $(LOCAL_BUILT_MODULE) : $(seapp_contexts.tmp) $(built_sepolicy) $(HOST_OUT_EXECU
 	@mkdir -p $(dir $@)
 	$(HOST_OUT_EXECUTABLES)/checkseapp -p $(PRIVATE_SEPOLICY) -o $@ $<
 
+built_sc := $(LOCAL_BUILT_MODULE)
 seapp_contexts.tmp :=
+
 ##################################
 include $(CLEAR_VARS)
 
@@ -166,8 +168,8 @@ $(LOCAL_BUILT_MODULE):  $(ALL_PC_FILES) $(built_sepolicy) $(HOST_OUT_EXECUTABLES
 	$(hide) m4 -s $(ALL_PC_FILES) > $@
 	$(hide) $(HOST_OUT_EXECUTABLES)/checkfc -p $(PRIVATE_SEPOLICY) $@
 
-property_contexts :=
-built_sepolicy :=
+built_pc := $(LOCAL_BUILT_MODULE)
+
 ##################################
 
 ##################################
@@ -206,8 +208,25 @@ $(LOCAL_BUILT_MODULE) : $(mac_perms_keys.tmp) $(HOST_OUT_EXECUTABLES)/insertkeys
 
 mac_perms_keys.tmp :=
 ##################################
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := selinux_version
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)
+
+include $(BUILD_SYSTEM)/base_rules.mk
+$(LOCAL_BUILT_MODULE) : $(built_sepolicy) $(built_pc) $(built_fc) $(built_sc)
+	@mkdir -p $(dir $@)
+	$(hide) echo $(BUILD_ID) > $@
+
+##################################
 
 build_policy :=
 sepolicy_replace_paths :=
+built_sepolicy :=
+built_sc :=
+built_fc :=
+built_pc :=
 
 include $(call all-makefiles-under,$(LOCAL_PATH))
