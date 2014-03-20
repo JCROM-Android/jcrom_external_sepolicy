@@ -206,6 +206,20 @@ $(LOCAL_BUILT_MODULE) : $(mac_perms_keys.tmp) $(HOST_OUT_EXECUTABLES)/insertkeys
 
 mac_perms_keys.tmp :=
 ##################################
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := selinux_version
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+$(LOCAL_BUILT_MODULE) : sepolicy file_contexts seapp_contexts property_contexts
+	@mkdir -p $(dir $@)
+	$(hide) echo $(BUILD_ID) > $@
+
+##################################
 
 build_policy :=
 sepolicy_replace_paths :=
