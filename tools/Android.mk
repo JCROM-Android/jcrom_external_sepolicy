@@ -57,3 +57,13 @@ LOCAL_SRC_FILES := sepolicy-analyze.c
 LOCAL_STATIC_LIBRARIES := libsepol
 
 include $(BUILD_HOST_EXECUTABLE)
+##################################
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := post_process_mac_perms
+LOCAL_SRC_FILES := post_process_mac_perms
+LOCAL_MODULE_CLASS := EXECUTABLES
+LOCAL_IS_HOST_MODULE := true
+LOCAL_MODULE_TAGS := optional
+
+include $(BUILD_PREBUILT)
