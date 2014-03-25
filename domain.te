@@ -88,6 +88,11 @@ allow domain system_file:file r_file_perms;
 allow domain system_file:file execute;
 allow domain system_file:lnk_file r_file_perms;
 
+# SElinux file accesses.
+allow domain selinuxfs:dir r_dir_perms;
+allow domain selinuxfs:file r_file_perms;
+allow domain kernel:security read_policy;
+
 # Read files already opened under /data.
 allow domain system_data_file:dir { search getattr };
 allow domain system_data_file:file { getattr read };
