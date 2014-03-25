@@ -26,36 +26,10 @@ POLICYVERS ?= 26
 MLS_SENS=1
 MLS_CATS=1024
 
-# Quick edge case error detection for BOARD_SEPOLICY_REPLACE.
-# Builds the singular path for each replace file.
-sepolicy_replace_paths :=
-$(foreach pf, $(BOARD_SEPOLICY_REPLACE), \
-  $(if $(filter $(pf), $(BOARD_SEPOLICY_UNION)), \
-    $(error Ambiguous request for sepolicy $(pf). Appears in both \
-      BOARD_SEPOLICY_REPLACE and BOARD_SEPOLICY_UNION), \
-  ) \
-  $(eval _paths := $(filter-out $(BOARD_SEPOLICY_IGNORE), \
-  $(wildcard $(addsuffix /$(pf), $(BOARD_SEPOLICY_DIRS))))) \
-  $(eval _occurrences := $(words $(_paths))) \
-  $(if $(filter 0,$(_occurrences)), \
-    $(error No sepolicy file found for $(pf) in $(BOARD_SEPOLICY_DIRS)), \
-  ) \
-  $(if $(filter 1, $(_occurrences)), \
-    $(eval sepolicy_replace_paths += $(_paths)), \
-    $(error Multiple occurrences of replace file $(pf) in $(_paths)) \
-  ) \
-  $(if $(filter 0, $(words $(wildcard $(addsuffix /$(pf), $(LOCAL_PATH))))), \
-    $(error Specified the sepolicy file $(pf) in BOARD_SEPOLICY_REPLACE, \
-      but none found in $(LOCAL_PATH)), \
-  ) \
-)
-
-# Quick edge case error detection for BOARD_SEPOLICY_UNION.
-# This ensures that a requested union file exists somewhere
-# in one of the listed BOARD_SEPOLICY_DIRS.
-$(foreach pf, $(BOARD_SEPOLICY_UNION), \
-  $(if $(filter 0, $(words $(wildcard $(addsuffix /$(pf), $(BOARD_SEPOLICY_DIRS))))), \
-    $(error No sepolicy file found for $(pf) in $(BOARD_SEPOLICY_DIRS)), \
+# Ensure specified policy directories exist.
+$(foreach pd, $(BOARD_SEPOLICY_REPLACE) $(BOARD_SEPOLICY_UNION), \
+  $(if $(filter 0, $(words $(wildcard $(pd)))), \
+    $(error Specified policy directory $(pd) does not exist), \
   ) \
 )
 
@@ -65,17 +39,12 @@ $(foreach pf, $(BOARD_SEPOLICY_UNION), \
 # $(1): the set of policy name paths to build
 build_policy = $(foreach type, $(1), \
   $(filter-out $(BOARD_SEPOLICY_IGNORE), \
-    $(foreach expanded_type, $(notdir $(wildcard $(addsuffix /$(type), $(LOCAL_PATH)))), \
-      $(if $(filter $(expanded_type), $(BOARD_SEPOLICY_REPLACE)), \
-        $(wildcard $(addsuffix $(expanded_type), $(sort $(dir $(sepolicy_replace_paths))))), \
-        $(LOCAL_PATH)/$(expanded_type) \
-      ) \
+    $(foreach base_file, $(wildcard $(addsuffix /$(type), $(LOCAL_PATH))), \
+      $(eval _basename := $(notdir $(base_file))) \
+      $(eval _replace_files := $(wildcard $(addsuffix /$(_basename), $(BOARD_SEPOLICY_REPLACE)))) \
+      $(lastword  $(base_file) $(_replace_files)) \
     ) \
-    $(foreach union_policy, $(wildcard $(addsuffix /$(type), $(BOARD_SEPOLICY_DIRS))), \
-      $(if $(filter $(notdir $(union_policy)), $(BOARD_SEPOLICY_UNION)), \
-        $(union_policy), \
-      ) \
-    ) \
+    $(wildcard $(addsuffix /$(type), $(BOARD_SEPOLICY_UNION))) \
   ) \
 )
 
@@ -208,6 +177,5 @@ mac_perms_keys.tmp :=
 ##################################
 
 build_policy :=
-sepolicy_replace_paths :=
 
 include $(call all-makefiles-under,$(LOCAL_PATH))
