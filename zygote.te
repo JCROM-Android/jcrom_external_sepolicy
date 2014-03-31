@@ -57,3 +57,5 @@ auditallow zygote ashmem_device:chr_file execute;
 auditallow zygote shell_data_file:file { write getattr };
 auditallow zygote system_server:binder { transfer call };
 auditallow zygote servicemanager:binder { call };
+
+allow zygote untrusted_app:process { ptrace };
