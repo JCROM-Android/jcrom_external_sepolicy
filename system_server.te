@@ -51,6 +51,7 @@ allow system_server self:capability {
     sys_resource
     sys_time
     sys_tty_config
+    block_suspend
 };
 
 allow system_server self:capability2 block_suspend;
