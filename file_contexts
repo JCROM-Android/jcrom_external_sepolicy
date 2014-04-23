@@ -64,6 +64,7 @@
 /dev/pn544		u:object_r:nfc_device:s0
 /dev/ppp		u:object_r:ppp_device:s0
 /dev/ptmx		u:object_r:ptmx_device:s0
+/dev/pvr_sync		u:object_r:gpu_device:s0
 /dev/pvrsrvkm		u:object_r:gpu_device:s0
 /dev/kmsg		u:object_r:kmsg_device:s0
 /dev/null		u:object_r:null_device:s0
