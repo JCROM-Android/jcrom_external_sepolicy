@@ -31,7 +31,8 @@ allow installd system_data_file:dir relabelfrom;
 allow installd media_rw_data_file:dir relabelto;
 
 # Create /data/.layout_version.* file
-allow installd system_data_file:file create_file_perms;
+type_transition installd system_data_file:file install_data_file;
+allow installd install_data_file:file create_file_perms;
 
 # Create files under /data/dalvik-cache.
 allow installd dalvikcache_data_file:dir create_dir_perms;
