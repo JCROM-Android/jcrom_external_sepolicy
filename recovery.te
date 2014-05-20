@@ -9,6 +9,9 @@ allow recovery {fs_type dev_type -kmem_device file_type}:dir_file_class_set rela
 allow recovery unlabeled:filesystem mount;
 allow recovery fs_type:filesystem *;
 
+allow recovery {fs_type dev_type file_type -keystore_data_file}:{ dir lnk_file sock_file fifo_file } ~relabelto;
+allow recovery {file_type -keystore_data_file}:{ chr_file file } ~{entrypoint execmod execute relabelto};
+
 # Required to e.g. wipe userdata/cache.
 allow recovery dev_type:blk_file rw_file_perms;
 
