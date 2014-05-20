@@ -18,8 +18,14 @@ attribute file_type;
 # All types used for domain entry points.
 attribute exec_type;
 
+# All types used for /cache files.
+attribute cache_file_type;
+
 # All types used for /data files.
 attribute data_file_type;
+
+# All types used for /efs files.
+attribute efs_file_type;
 
 # All types use for sysfs files.
 attribute sysfs_type;

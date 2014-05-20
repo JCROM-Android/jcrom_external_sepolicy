@@ -232,3 +232,7 @@ neverallow { domain -unconfineddomain -ueventd } device:chr_file { open read wri
 # sdcard_type / vfat is exempt as a larger set of domains need
 # this capability, including device-specific domains.
 neverallow { domain -kernel -init -recovery -vold -zygote } { fs_type -sdcard_type }:filesystem { mount remount relabelfrom relabelto };
+
+# Only recovery should be doing writes to /system
+neverallow { domain -recovery } { system_file exec_type }:dir_file_class_set
+    { create write setattr relabelfrom relabelto append unlink link rename };

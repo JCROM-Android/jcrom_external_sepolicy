@@ -9,6 +9,9 @@ allow recovery {fs_type dev_type -kmem_device file_type}:dir_file_class_set rela
 allow recovery unlabeled:filesystem mount;
 allow recovery fs_type:filesystem *;
 
+allow recovery {system_file exec_type}:dir { create_dir_perms relabelfrom relabelto };
+allow recovery {system_file exec_type}:{ file lnk_file } { create_file_perms relabelfrom relabelto };
+
 # Required to e.g. wipe userdata/cache.
 allow recovery dev_type:blk_file rw_file_perms;
 

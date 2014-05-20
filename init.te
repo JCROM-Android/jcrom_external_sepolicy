@@ -10,7 +10,7 @@ allow init self:capability { sys_rawio mknod };
 
 allow init dev_type:blk_file rw_file_perms;
 allow init fs_type:filesystem *;
-allow init {fs_type dev_type file_type}:dir_file_class_set relabelto;
+allow init {fs_type dev_type data_file_type cache_file_type efs_file_type}:dir_file_class_set relabelto;
 allow init kernel:security load_policy;
 allow init usermodehelper:file rw_file_perms;
 allow init proc_security:file rw_file_perms;
