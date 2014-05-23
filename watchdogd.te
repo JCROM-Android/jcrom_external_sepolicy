@@ -8,3 +8,9 @@ allow watchdogd watchdog_device:chr_file rw_file_perms;
 write_klog(watchdogd)
 type_transition watchdogd device:chr_file null_device "__null__";
 allow watchdogd null_device:chr_file { create unlink };
+
+###
+### Neverallow rules
+###
+
+neverallow watchdogd { file_type -system_file -exec_type }:file execute;

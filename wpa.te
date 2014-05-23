@@ -30,3 +30,9 @@ allow wpa wpa_socket:sock_file create_file_perms;
 userdebug_or_eng(`
   unix_socket_send(wpa, wpa, su)
 ')
+
+###
+### Neverallow rules
+###
+
+neverallow wpa { file_type -system_file -exec_type }:file execute;

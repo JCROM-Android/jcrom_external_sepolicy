@@ -31,3 +31,9 @@ userdebug_or_eng(`
 
 # logd access
 read_logd(debuggerd)
+
+###
+### Neverallow rules
+###
+
+neverallow debuggerd { file_type -system_file -exec_type }:file execute;

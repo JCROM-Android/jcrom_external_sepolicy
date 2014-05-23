@@ -28,3 +28,9 @@ allow uncrypt powerctl_prop:property_service set;
 allow uncrypt self:capability sys_rawio;
 allow uncrypt block_device:blk_file w_file_perms;
 allow uncrypt block_device:dir r_dir_perms;
+
+###
+### Neverallow rules
+###
+
+neverallow uncrypt { file_type -system_file -exec_type }:file execute;

@@ -18,3 +18,9 @@ allow gpsd gps_device:chr_file rw_file_perms;
 # Execute the shell or system commands.
 allow gpsd shell_exec:file rx_file_perms;
 allow gpsd system_file:file rx_file_perms;
+
+###
+### Neverallow rules
+###
+
+neverallow gpsd { file_type -system_file -exec_type }:file execute;

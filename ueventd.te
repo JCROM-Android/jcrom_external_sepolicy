@@ -23,3 +23,9 @@ allow ueventd efs_file:file r_file_perms;
 
 # Use setfscreatecon() to label /dev directories and files.
 allow ueventd self:process setfscreate;
+
+###
+### Neverallow rules
+###
+
+neverallow ueventd { file_type -system_file -exec_type }:file execute;

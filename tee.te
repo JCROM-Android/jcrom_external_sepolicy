@@ -12,3 +12,9 @@ allow tee tee_device:chr_file rw_file_perms;
 allow tee tee_data_file:dir rw_dir_perms;
 allow tee tee_data_file:file create_file_perms;
 allow tee self:netlink_socket create_socket_perms;
+
+###
+### Neverallow rules
+###
+
+neverallow tee { file_type -system_file -exec_type }:file execute;

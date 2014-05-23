@@ -8,3 +8,9 @@ binder_use(inputflinger)
 binder_service(inputflinger)
 
 binder_call(inputflinger, system_server)
+
+###
+### Neverallow rules
+###
+
+neverallow inputflinger { file_type -system_file -exec_type }:file execute;

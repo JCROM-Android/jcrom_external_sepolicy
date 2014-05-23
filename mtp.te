@@ -10,3 +10,9 @@ allow mtp self:socket create_socket_perms;
 allow mtp self:capability net_raw;
 allow mtp ppp:process signal;
 allow mtp vpn_data_file:dir search;
+
+###
+### Neverallow rules
+###
+
+neverallow mtp { file_type -system_file -exec_type }:file execute;

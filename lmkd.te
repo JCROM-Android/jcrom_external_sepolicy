@@ -18,3 +18,9 @@ allow lmkd sysfs_lowmemorykiller:file w_file_perms;
 
 # Send kill signals
 allow lmkd appdomain:process sigkill;
+
+###
+### Neverallow rules
+###
+
+neverallow lmkd { file_type -system_file -exec_type }:file execute;

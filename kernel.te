@@ -19,3 +19,9 @@ dontaudit kernel self:security setenforce;
 
 # Set checkreqprot by init.rc prior to switching to init domain.
 allow kernel self:security setcheckreqprot;
+
+###
+### Neverallow rules
+###
+
+neverallow kernel { file_type -system_file -exec_type }:file execute;

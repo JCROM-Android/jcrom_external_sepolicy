@@ -12,3 +12,9 @@ init_daemon_domain(servicemanager)
 # or initiates a Binder IPC.
 allow servicemanager self:binder set_context_mgr;
 allow servicemanager domain:binder transfer;
+
+###
+### Neverallow rules
+###
+
+neverallow servicemanager { file_type -system_file -exec_type }:file execute;

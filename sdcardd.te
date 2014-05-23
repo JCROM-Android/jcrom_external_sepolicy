@@ -18,3 +18,9 @@ allow sdcardd media_rw_data_file:file create_file_perms;
 
 # Read /data/system/packages.list.
 allow sdcardd system_data_file:file r_file_perms;
+
+###
+### Neverallow rules
+###
+
+neverallow sdcardd { file_type -system_file -exec_type }:file execute;

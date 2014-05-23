@@ -23,3 +23,10 @@ security_access_policy(runas)
 selinux_check_context(runas) # validate context
 allow runas self:process setcurrent;
 allow runas non_system_app_set:process dyntransition; # setcon
+
+
+###
+### Neverallow rules
+###
+
+neverallow runas { file_type -system_file -exec_type }:file execute;

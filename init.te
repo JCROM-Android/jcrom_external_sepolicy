@@ -33,3 +33,9 @@ allow init keystore_data_file:file { getattr };
 # setfscreate is for labeling directories and socket files.
 # setsockcreate is for labeling local/unix domain sockets.
 allow init self:process { setexec setfscreate setsockcreate };
+
+###
+### Neverallow rules
+###
+
+neverallow init { file_type -system_file -exec_type }:file execute;

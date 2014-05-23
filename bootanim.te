@@ -8,3 +8,9 @@ binder_use(bootanim)
 binder_call(bootanim, surfaceflinger)
 
 allow bootanim gpu_device:chr_file rw_file_perms;
+
+###
+### Neverallow rules
+###
+
+neverallow bootanim { file_type -system_file -exec_type }:file execute;

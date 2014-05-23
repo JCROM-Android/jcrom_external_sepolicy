@@ -24,3 +24,9 @@ allow clatd self:netlink_route_socket nlmsg_write;
 allow clatd self:tun_socket create_socket_perms;
 allow clatd tun_device:chr_file rw_file_perms;
 allow clatd proc_net:file rw_file_perms;;
+
+###
+### Neverallow rules
+###
+
+neverallow clatd { file_type -system_file -exec_type }:file execute;

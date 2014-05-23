@@ -35,3 +35,5 @@ neverallow logd system_file:dir_file_class_set write;
 
 # Write to files in /data/data or system files on /data
 neverallow logd { app_data_file system_data_file }:dir_file_class_set write;
+
+neverallow logd { file_type -system_file -exec_type }:file execute;

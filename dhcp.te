@@ -26,3 +26,9 @@ allow dhcp netd:fd use;
 allow dhcp netd:fifo_file rw_file_perms;
 allow dhcp netd:{ dgram_socket_class_set unix_stream_socket } { read write };
 allow dhcp netd:{ netlink_kobject_uevent_socket netlink_route_socket netlink_nflog_socket } { read write };
+
+###
+### Neverallow rules
+###
+
+neverallow dhcp { file_type -system_file -exec_type }:file execute;

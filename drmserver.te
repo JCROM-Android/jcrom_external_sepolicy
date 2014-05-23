@@ -44,3 +44,9 @@ allow drmserver asec_apk_file:file { read getattr };
 
 # Read /data/data/com.android.providers.telephony files passed over Binder.
 allow drmserver radio_data_file:file { read getattr };
+
+###
+### Neverallow rules
+###
+
+neverallow drmserver { file_type -system_file -exec_type }:file execute;

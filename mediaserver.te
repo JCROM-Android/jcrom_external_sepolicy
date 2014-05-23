@@ -78,3 +78,9 @@ unix_socket_connect(mediaserver, bluetooth, bluetooth)
 
 # Connect to tee service.
 allow mediaserver tee:unix_stream_socket connectto;
+
+###
+### Neverallow rules
+###
+
+neverallow mediaserver { file_type -system_file -exec_type }:file execute;
