@@ -75,6 +75,9 @@ allow vold asec_apk_file:dir { rw_dir_perms setattr relabelfrom };
 allow vold asec_public_file:dir { relabelto setattr };
 allow vold asec_apk_file:file { r_file_perms setattr relabelfrom };
 allow vold asec_public_file:file { relabelto setattr };
+# restorecon files in asec containers created on 4.2 or earlier.
+allow vold unlabeled:dir { getattr read search setattr relabelfrom };
+allow vold unlabeled:file { getattr setattr relabelfrom };
 
 # Handle wake locks (used for device encryption)
 wakelock_use(vold)
