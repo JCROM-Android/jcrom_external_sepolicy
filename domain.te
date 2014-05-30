@@ -189,6 +189,23 @@ neverallow { domain -recovery } self:capability2 mac_admin;
 # Policy reload requires allowing this to the init domain.
 neverallow { domain -init } kernel:security load_policy;
 
+# Only init and the system_server can set selinux.reload_policy 1
+# to trigger a policy reload.
+neverallow { domain -init -system_server } security_prop:property_service set;
+
+# Only init and system_server can write to /data/security, where runtime
+# policy updates live.
+# Only init can relabel /data/security (for init.rc restorecon_recursive /data).
+neverallow { domain -init } security_file:{ dir file lnk_file } { relabelfrom relabelto };
+# Only init and system_server can create/modify directories with this type.
+# init exemption is for init.rc mkdir /data/security.
+# system_server exemption is for creating directories and files under /data/security.
+neverallow { domain -init -system_server } security_file:dir { create setattr rename write add_name remove_name rmdir };
+# Only system_server can create files under /data/security.
+neverallow { domain -system_server } security_file:file { create setattr relabelfrom write append unlink link rename };
+# Only system_server can create the /data/security/current symlink.
+neverallow { domain -system_server } security_file:lnk_file { create setattr relabelfrom unlink rename };
+
 # Only init prior to switching context should be able to set enforcing mode.
 # init starts in kernel domain and switches to init domain via setcon in
 # the init.rc, so the setenforce occurs while still in kernel. After
