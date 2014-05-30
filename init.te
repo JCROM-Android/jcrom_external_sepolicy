@@ -19,7 +19,12 @@ allow init unlabeled:filesystem *;
 # we just allow all file types except /system files here.
 allow init {file_type -system_file -exec_type}:dir_file_class_set relabelto;
 
-# Reload policy upon setprop selinux.reload_policy 1.
+# Create /data/security from init.rc.
+allow init security_file:dir create_dir_perms;
+
+# setprop selinux.reload_policy 1 from init.rc or by system_server.
+allow init security_prop:property_service set;
+r_dir_file(init, security_file)
 allow init kernel:security load_policy;
 
 # Any operation that can modify the kernel ring buffer, e.g. clear
