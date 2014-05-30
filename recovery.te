@@ -6,9 +6,10 @@ unconfined_domain(recovery)
 allow recovery self:capability2 mac_admin;
 
 # Mount filesystems.
-allow recovery fs_type:filesystem *;
-allow recovery unlabeled:filesystem *;
-
+# Same rules as in init.te.
+allow recovery fs_type:filesystem ~relabelfrom;
+allow recovery { fs_type -labeledfs }:filesystem relabelfrom;
+allow recovery unlabeled:filesystem ~relabelto;
 
 # Create and relabel files under /system.
 allow recovery exec_type:{ file dir lnk_file } { create write setattr relabelfrom relabelto append unlink link rename };
