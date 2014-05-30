@@ -254,3 +254,17 @@ neverallow { domain -init } property_data_file:file { create setattr relabelfrom
 # Only recovery should be doing writes to /system
 neverallow { domain -recovery } { system_file exec_type }:dir_file_class_set
     { create write setattr relabelfrom relabelto append unlink link rename };
+
+# Do not allow any domain to use a context= mount option on
+# a filesystem that natively supports labeling (see fs_use).
+# While this can sometimes be useful in Linux to ignore
+# the attributes on an untrusted ext4 or similar filesystem
+# and treat all files in it as having a single context, it is undesirable
+# in Android and would permit remapping /system or other labeled
+# partitions to another type.
+neverallow domain labeledfs:filesystem relabelfrom;
+
+# Also do not allow any domain to use a context= mount option
+# to map any filesytem to the unlabeled type.  This is particularly
+# undesirable if untrusted domains are allowed to write to unlabeled.
+neverallow domain unlabeled:filesystem relabelto;
