@@ -10,8 +10,16 @@ allow init self:capability { sys_rawio mknod };
 allow init dev_type:blk_file rw_file_perms;
 
 # Mounting filesystems.
-allow init fs_type:filesystem *;
-allow init unlabeled:filesystem *;
+# Only allow relabelfrom for context= mount options on filesystems
+# that do not natively support labeling (e.g. vfat).
+allow init fs_type:filesystem ~relabelfrom;
+allow init { fs_type -labeledfs }:filesystem relabelfrom;
+
+# With unlabeled filesystems (i.e. no fs_use or genfs_contexts entry),
+# permit relabelfrom but not relabelto, i.e. allow setting a context
+# via context= for unlabeled filesystems but do not allow remapping
+# any labeled filesystem to unlabeled.
+allow init unlabeled:filesystem ~relabelto;
 
 # restorecon and restorecon_recursive calls from init.rc files.
 # system/core/init.rc requires at least cache_file and data_file_type.
