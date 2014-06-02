@@ -1,0 +1,14 @@
+# Default domain for services that lack their own domain definition.
+# If your service is running in this domain, please create a separate
+# domain for it.  This domain is merely to ensure that such services
+# are not left running in the init domain.  This domain is specified
+# as the default for services that have neither a seclabel option nor
+# an automatic domain transition defined in policy via the setservicecon
+# command in the init.rc file.
+type service, domain;
+
+# May be entered by services run from / or /system.
+allow service rootfs:file entrypoint;
+allow service system_file:file entrypoint;
+
+# DO NOT ADD ALLOW RULES TO THIS FILE!
