@@ -1,0 +1,7 @@
+Code-Review+2: Nick Kralevich <nnk@google.com>
+Verified+1: Christopher Tate <ctate@android.com>
+Submitted-by: Christopher Tate <ctate@android.com>
+Submitted-at: Tue, 03 Jun 2014 18:19:51 +0000
+Reviewed-on: https://android-review.googlesource.com/96443
+Project: platform/external/sepolicy
+Branch: refs/heads/master
