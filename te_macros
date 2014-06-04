@@ -336,12 +336,6 @@ define(`permissive_or_unconfined', ifelse(force_permissive_to_unconfined, `false
 # Ability to write to android log
 # daemon via sockets
 define(`write_logd', `
-userdebug_or_eng(`
-  # Debug output
-  type_transition $1 device:file logd_debug;
-  allow $1 device:dir rw_dir_perms;
-  allow $1 logd_debug:file create_file_perms;
-')
 unix_socket_send($1, logdw, logd)
 ')
 
